@@ -1,0 +1,87 @@
+Cta Client = {
+Init q0;
+q0 SC?m220(x < 5,{x}) q1;
+q0 CS!QUIT(x >= 5) q11;
+q1 CS!EHLO({x}) q2;
+q1 CS!QUIT q11;
+q2 SC?OK(x < 5,{x}) q3;
+q2 SC?ERROR(x < 5,{x}) q1;
+q2 CS!QUIT(x >= 5) q11;
+q3 CS!MAIL({x}) q4;
+q3 CS!QUIT q11;
+q4 SC?OK(x < 5,{x}) q5;
+q4 SC?ERROR(x < 5,{x}) q3;
+q4 CS!QUIT(x >= 5) q11;
+q5 CS!RCPT({x}) q6;
+q5 CS!QUIT q11;
+q6 SC?OK(x < 5,{x}) q7;
+q6 SC?ERROR(x < 5,{x}) q5;
+q6 CS!QUIT(x >= 5) q11;
+q7 CS!RCPT({x}) q6;
+q7 CS!DATA({x}) q8;
+q7 CS!QUIT q11;
+q8 SC?OK(x < 10,{x}) q9;
+q8 SC?ERROR(x < 10, {x}) q7;
+q8 CS!QUIT(x >= 10) q11;
+q9 CS!QUIT({x}) q10;
+};
+
+Cta Client1 = {
+Init q0;
+q0 SC?m220(x < 5 & x >= 4,{x}) q1;
+q0 CS!QUIT(x == 5) q11;
+q1 CS!EHLO(x == 0,{x}) q2;
+q1 CS!QUIT(x == 0) q11;
+q2 SC?OK(x < 5 & x >= 4,{x}) q3;
+q2 SC?ERROR(x < 5 & x >= 4,{x}) q1;
+q2 CS!QUIT(x == 5) q11;
+q3 CS!MAIL(x == 0,{x}) q4;
+q3 CS!QUIT(x == 0) q11;
+q4 SC?OK(x < 5 & x >= 4,{x}) q5;
+q4 SC?ERROR(x < 5 & x >= 4,{x}) q3;
+q4 CS!QUIT(x == 5) q11;
+q5 CS!RCPT(x == 0,{x}) q6;
+q5 CS!QUIT(x == 0) q11;
+q6 SC?OK(x < 5 & x >= 4,{x}) q7;
+q6 SC?ERROR(x < 5,{x}) q5;
+q6 CS!QUIT(x == 5) q11;
+q7 CS!RCPT(x == 0,{x}) q6;
+q7 CS!DATA(x == 0,{x}) q8;
+q7 CS!QUIT(x == 0) q11;
+q8 SC?OK(x < 10 & x >= 9,{x}) q9;
+q8 SC?ERROR(x < 10 & x >= 9, {x}) q7;
+q8 CS!QUIT(x == 10) q11;
+q9 CS!QUIT(x == 0,{x}) q10;
+};
+
+Cta Client2 = {
+Init q0;
+q0 SC?m220(x < 5 & x >= 4,{x}) q1;
+q0 CS!QUIT(x >= 5) q11;
+q1 CS!EHLO({x}) q2;
+q1 CS!QUIT q11;
+q2 SC?OK(x < 5 & x >= 4,{x}) q3;
+q2 SC?ERROR(x < 5 & x >= 4,{x}) q1;
+q2 CS!QUIT(x >= 5) q11;
+q3 CS!MAIL({x}) q4;
+q3 CS!QUIT q11;
+q4 SC?OK(x < 5 & x >= 4,{x}) q5;
+q4 SC?ERROR(x < 5 & x >= 4,{x}) q3;
+q4 CS!QUIT(x >= 5) q11;
+q5 CS!RCPT({x}) q6;
+q5 CS!QUIT q11;
+q6 SC?OK(x < 5 & x >= 4,{x}) q7;
+q6 SC?ERROR(x < 5 & x >= 4,{x}) q5;
+q6 CS!QUIT(x >= 5) q11;
+q7 CS!RCPT({x}) q6;
+q7 CS!DATA({x}) q8;
+q7 CS!QUIT q11;
+q8 SC?OK(x < 10 & x >= 9,{x}) q9;
+q8 SC?ERROR(x < 10 & x >= 9, {x}) q7;
+q8 CS!QUIT(x >= 10) q11;
+q9 CS!QUIT({x}) q10;
+};
+
+Client1 refines? Client;
+
+Client2 refines? Client;

@@ -1,0 +1,33 @@
+Command : "Cta" Name '=' '{' Initial Edges '}' ';'
+| "Cta" Name '=' '{' Initial'}' ';' 
+| Name 'refines?' Name ';'
+| "Show" "(" Name ")" ';'
+| Command Command {left};
+Guard : 'True'
+| 'False'
+| Clock '<=' Nat
+| Clock '<' Nat
+| Clock '>=' Nat
+| Clock '>' Nat
+| Clock '==' Nat
+| Guard '&' Guard {left}
+| Guard '|' Guard {left}
+| '(' Guard ')';
+Clock : String;
+String : /[a-zA-Z]([a-zA-Z0-9_]*)?/;
+Nat : /\d+/;
+Name : /\w+/;
+Initial : "Init" State ';' ;
+Edges : Edge | Edge Edges;
+Edge : State Channel IO Act '(' Guard ',' '{' Clocks '}' ')' State  ';'
+| State Channel IO Act '(' Guard ',' '{' '}' ')' State ';'
+| State Channel IO Act '(' Guard ')' State ';'
+| State Channel IO Act '(' '{' Clocks '}' ')' State ';'
+| State Channel IO Act '(' '{' '}' ')' State ';'
+| State Channel IO Act '(' ')' State ';'
+| State Channel IO Act State ';' ;
+State : String;
+Channel : String;
+Act : String;
+IO : '!' | '?';
+Clocks : Clock | Clock ';' Clocks;

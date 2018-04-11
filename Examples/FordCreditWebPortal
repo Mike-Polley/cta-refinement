@@ -1,0 +1,59 @@
+Cta A = {
+Init start;
+start CS?login logged;
+logged CS?preApproval preApprovalApplication;
+logged CS?selectVehicle vehicleSelection;
+preApprovalApplication SC!reject applicationRejected;
+preApprovalApplication SC!approved({x}) creditApproved;
+creditApproved CS?selectVehicle(x < 30) vehicleSelection;
+creditApproved SC!expired(x == 30) creditExpired;
+vehicleSelection CS?estimatePayment({x}) paymentEstimation;
+vehicleSelection CS?cancel cancelled;
+paymentEstimation CS?reapplication(x < 30) vehicleSelection;
+paymentEstimation CS?fullCredit(x <= 24) creditApplication;
+paymentEstimation SC!expired(x == 30) cancelled;
+creditApplication SC!reject applicationRejected;
+creditApplication SC!accept creditAccepted;
+};
+
+Show(A);
+
+Cta A1 = {
+Init start;
+start CS?login logged;
+logged CS?preApproval preApprovalApplication;
+logged CS?selectVehicle vehicleSelection;
+preApprovalApplication SC!reject (x == 0) applicationRejected;
+preApprovalApplication SC!approved(x == 0,{x}) creditApproved;
+creditApproved CS?selectVehicle(x < 30 & x >= 29) vehicleSelection;
+creditApproved SC!expired(x == 30) creditExpired;
+vehicleSelection CS?estimatePayment({x}) paymentEstimation;
+vehicleSelection CS?cancel cancelled;
+paymentEstimation CS?reapplication(x < 30 & x >= 29) vehicleSelection;
+paymentEstimation CS?fullCredit(x <= 24 & x >= 23) creditApplication;
+paymentEstimation SC!expired(x == 30) cancelled;
+creditApplication SC!reject(x == 0) applicationRejected;
+creditApplication SC!accept(x == 0) creditAccepted;
+};
+
+Cta A2 = {
+Init start;
+start CS?login logged;
+logged CS?preApproval preApprovalApplication;
+logged CS?selectVehicle vehicleSelection;
+preApprovalApplication SC!reject applicationRejected;
+preApprovalApplication SC!approved({x}) creditApproved;
+creditApproved CS?selectVehicle(x < 30 & x >= 29) vehicleSelection;
+creditApproved SC!expired(x == 30) creditExpired;
+vehicleSelection CS?estimatePayment({x}) paymentEstimation;
+vehicleSelection CS?cancel cancelled;
+paymentEstimation CS?reapplication(x < 30 & x >= 29) vehicleSelection;
+paymentEstimation CS?fullCredit(x <= 24 & x >= 23) creditApplication;
+paymentEstimation SC!expired(x == 30) cancelled;
+creditApplication SC!reject applicationRejected;
+creditApplication SC!accept creditAccepted;
+};
+
+A1 refines? A;
+
+A2 refines? A;

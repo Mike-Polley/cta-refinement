@@ -1,0 +1,49 @@
+Cta Producer = {
+Init q0;
+q0 PC!id0({x1}) q1;
+q1 PC!id1(x1 <= 10,{x1}) q2;
+q2 PC!id2(x1 >= 20) q3;
+};
+
+Cta Producer1 = {
+Init q0;
+q0 PC!id0({x1}) q1;
+q1 PC!id1(x1 == 0,{x1}) q2;
+q2 PC!id2(x1 == 20) q3;
+};
+
+Cta Producer2 = {
+Init q0;
+q0 PC!id0({x1}) q1;
+q1 PC!id1(x1 == 5,{x1}) q2;
+q2 PC!id2(x1 >= 20) q3;
+};
+
+Cta Producer3 = {
+Init q0;
+q0 PC!id0({x1}) q1;
+q1 PC!id1(x1 == 10,{x1}) q2;
+q2 PC!id2(x1 >= 20) q3;
+};
+
+Producer1 refines? Producer;
+
+Producer2 refines? Producer;
+
+Producer3 refines? Producer;
+
+Cta Consumer = {
+Init q0;
+q0 PC?id0({x2}) q1;
+q1 PC?id1(x2 <= 1,{x2}) q2;
+q2 PC?id2(x2 >= 2) q3;
+};
+
+Cta Consumer1 = {
+Init q0;
+q0 PC?id0({x2}) q1;
+q1 PC?id1(x2 == 1,{x2}) q2;
+q2 PC?id2(x2 >= 2) q3;
+};
+
+Consumer1 refines? Consumer; 
