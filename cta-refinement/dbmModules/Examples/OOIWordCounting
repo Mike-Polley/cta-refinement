@@ -1,0 +1,77 @@
+Cta M = {
+Init q0 ;
+q0 MW!task(x < 10,{x}) q1;
+q1 WM?result(x > 215 & x < 220) q2;
+q2 MA!more(x == 220) q3;
+q3 MW!more(x == 220,{x}) q1;
+q2 MA!end(x == 220) q4;
+q4 MW!end(x == 220,{x}) q5; 
+};
+
+Cta M1 = {
+Init q0 ;
+q0 MW!task(x == 0,{x}) q1;
+q1 WM?result(x >= 219 & x < 220) q2;
+q2 MA!more(x == 220) q3;
+q3 MW!more(x == 220,{x}) q1;
+q2 MA!end(x == 220) q4;
+q4 MW!end(x == 220,{x}) q5;
+};
+
+Cta M2 = {
+Init q0 ;
+q0 MW!task(x == 5,{x}) q1;
+q1 WM?result(x >= 219 & x < 220) q2;
+q2 MA!more(x == 220) q3;
+q3 MW!more(x == 220,{x}) q1;
+q2 MA!end(x == 220) q4;
+q4 MW!end(x == 220,{x}) q5; 
+};
+
+Cta M3 = {
+Init q0 ;
+q0 MW!task(x < 10 & x >= 9,{x}) q1;
+q1 WM?result(x >= 219 & x < 220) q2;
+q2 MA!more(x == 220) q3;
+q3 MW!more(x == 220,{x}) q1;
+q2 MA!end(x == 220) q4;
+q4 MW!end(x == 220,{x}) q5; 
+};
+
+M1 refines? M;
+
+M2 refines? M;
+
+M3 refines? M;
+
+Cta W ={
+Init q0;
+q0 MW?task(x == 1,{x}) q1;
+q1 WM!result(x == 20) q2;
+q2 MW?more(x == 23,{x}) q1;
+q2 MW?end(x == 23) q3;  
+};
+
+Cta W1 ={
+Init q0;
+q0 MW?task(x == 1,{x}) q1;
+q1 WM!result(x == 20) q2;
+q2 MW?more(x == 23,{x}) q1;
+q2 MW?end(x == 23) q3;  
+};
+
+W1 refines? W;
+
+Cta A = {
+Init q0;
+q0 MA?more(x >= 23,{x}) q0;
+q0 MA?end(x >= 23) q1;
+};
+
+Cta A1 = {
+Init q0;
+q0 MA?more(x >= 23,{x}) q0;
+q0 MA?end(x >= 23) q1;
+};
+
+A1 refines? A;

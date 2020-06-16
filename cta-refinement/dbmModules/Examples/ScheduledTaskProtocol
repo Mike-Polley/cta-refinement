@@ -1,0 +1,97 @@
+Cta U = {
+Init u0;
+u0 UW!task(x < 10,{x}) u1;
+u1 AU?result(x <= 200) u2; 
+};
+
+Cta U1 = {
+Init u0;
+u0 UW!task(x == 0,{x}) u1;
+u1 AU?result(x <= 200 & x >= 199) u2;
+};
+
+Cta U2 = {
+Init u0;
+u0 UW!task(x == 5,{x}) u1;
+u1 AU?result(x <= 200 & x >= 199) u2;
+};
+
+Cta U3 = {
+Init u0;
+u0 UW!task(x < 10 & x >= 9,{x}) u1;
+u1 AU?result(x <= 200 & x >= 199) u2;
+};
+
+U1 refines? U;
+
+U2 refines? U;
+
+U3 refines? U;
+
+Cta W = {
+Init w0;
+w0 UW?task (x == 1,{x;y}) w1;
+w1 WA!data(x == 2 & y < 10,{x}) w1;
+w1 WA!stop(x < 2) w2;
+};
+
+Cta W1 = {
+Init w0;
+w0 UW?task (x == 1,{x;y}) w1;
+w1 WA!data(x == 2 & y < 10,{x}) w1;
+w1 WA!stop(x == 0) w2;
+};
+
+Cta W2 = {
+Init w0;
+w0 UW?task (x == 1,{x;y}) w1;
+w1 WA!data(x == 2 & y < 10,{x}) w1;
+w1 WA!stop(x == 1) w2;
+};
+
+Cta W3 = {
+Init w0;
+w0 UW?task (x == 1,{x;y}) w1;
+w1 WA!data(x == 2 & y < 10,{x}) w1;
+w1 WA!stop(x < 2 & x >= 1) w2;
+};
+
+W1 refines? W;
+
+W2 refines? W;
+
+W3 refines? W;
+
+Cta A = {
+Init a0;
+a0 WA?data(z == 30,{z}) a0;
+a0 WA?stop(z == 30,{z}) a1;
+a1 AU!result(z <= 50) a2;
+};
+
+Cta A1 = {
+Init a0;
+a0 WA?data(z == 30,{z}) a0;
+a0 WA?stop(z == 30,{z}) a1;
+a1 AU!result(z == 0) a2;
+};
+
+Cta A2 = {
+Init a0;
+a0 WA?data(z == 30,{z}) a0;
+a0 WA?stop(z == 30,{z}) a1;
+a1 AU!result(z == 25) a2;
+};
+
+Cta A3 = {
+Init a0;
+a0 WA?data(z == 30,{z}) a0;
+a0 WA?stop(z == 30,{z}) a1;
+a1 AU!result(z == 50) a2;
+};
+
+A1 refines? A; 
+
+A2 refines? A; 
+
+A3 refines? A;

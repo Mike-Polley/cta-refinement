@@ -1,0 +1,115 @@
+Cta User = {
+Init q0;
+q0 UM!card q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x <= 30) q3;
+q3 MU?menu q4;
+};
+
+Cta User1 = {
+Init q0;
+q0 UM!card(x == 0) q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x == 0) q3;
+q3 MU?menu q4;
+};
+
+Cta User2 = {
+Init q0;
+q0 UM!card q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x == 15) q3;
+q3 MU?menu q4;
+};
+
+Cta User3 = {
+Init q0;
+q0 UM!card q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x == 30) q3;
+q3 MU?menu q4;
+};
+
+User1 refines? User;
+
+User2 refines? User;
+
+User3 refines? User;
+
+Cta Machine = {
+Init q0;
+q0 UM?card q1;
+q1 MB!carddata q2;
+q2 BM?cardok q3;
+q3 MU!pinrequest q4;
+q4 UM?pin q5;
+q5 MB!verifypin q6;
+q6 BM?pinok q7;
+q7 MU!menu q8;
+};
+
+Cta Machine1 = {
+Init q0;
+q0 UM?card q1;
+q1 MB!carddata(x == 0) q2;
+q2 BM?cardok q3;
+q3 MU!pinrequest(x == 0) q4;
+q4 UM?pin q5;
+q5 MB!verifypin(x == 0) q6;
+q6 BM?pinok q7;
+q7 MU!menu(x == 0) q8;
+};
+
+Cta Machine2 = {
+Init q0;
+q0 UM?card q1;
+q1 MB!carddata q2;
+q2 BM?cardok q3;
+q3 MU!pinrequest q4;
+q4 UM?pin q5;
+q5 MB!verifypin q6;
+q6 BM?pinok q7;
+q7 MU!menu q8;
+};
+
+Machine1 refines? Machine;
+
+Machine2 refines? Machine;
+
+Cta Bank = {
+Init q0;
+q0 MB?carddata({y}) q1;
+q1 BM!cardok(y <= 2) q2;
+q2 MB?verifypin q3;
+q3 BM!pinok q4;
+};
+
+Cta Bank1 = {
+Init q0;
+q0 MB?carddata({y}) q1;
+q1 BM!cardok(y == 0) q2;
+q2 MB?verifypin q3;
+q3 BM!pinok(y == 0) q4;
+};
+
+Cta Bank2 = {
+Init q0;
+q0 MB?carddata({y}) q1;
+q1 BM!cardok(y == 1) q2;
+q2 MB?verifypin q3;
+q3 BM!pinok q4;
+};
+
+Cta Bank3 = {
+Init q0;
+q0 MB?carddata({y}) q1;
+q1 BM!cardok(y == 2) q2;
+q2 MB?verifypin q3;
+q3 BM!pinok q4;
+};
+
+Bank1 refines? Bank;
+
+Bank2 refines? Bank;
+
+Bank3 refines? Bank;
