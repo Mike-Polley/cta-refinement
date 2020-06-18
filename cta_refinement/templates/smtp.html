@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}SMTP Client{% endblock %}
+{% block content %}
+
+<div id="list">
+  {%for i in range(0, len)%} 
+  
+    <li>{{src[i]}}</li> 
+{%endfor%} 
+</div>
+{% endblock %}
+
