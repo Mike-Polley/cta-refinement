@@ -14,5 +14,10 @@ def home():
     else:
         return render_template("index.html")
 
+
+@app.route("/sample-scripts/ATM")
+def atm():
+    return render_template("ATM.html")
+
 if __name__ == "__main__":
     app.run(threaded=True)
