@@ -10,7 +10,7 @@ def home():
     if request.method == "POST":
         scriptInput = request.form["script"]
         response = webScriptRefinementChecker(str(scriptInput))
-        return render_template("output.html",script = response)
+        return render_template("output.html",response = response)
     else:
         return render_template("index.html")
 

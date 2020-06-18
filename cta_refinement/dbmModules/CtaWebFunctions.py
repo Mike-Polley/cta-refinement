@@ -130,7 +130,7 @@ def webScriptRefinementChecker(script):
     except Exception as e:
         return str(e) + "Script execution: Failed. Terminating.\n"
         sys.exit()
-    return "Parse input: Done.\nParser generation: Done.\n" + response + "Script execution: Done.\nTerminating.\n"
+    return "Parser generation: Done.\nParse input: Done.\n" + response + "Script execution: Done.\nTerminating.\n"
 
 
 def main():

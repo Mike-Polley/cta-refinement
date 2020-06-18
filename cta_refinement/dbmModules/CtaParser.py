@@ -243,6 +243,10 @@ actions = {
 	          lambda _, nodes: [nodes[0]] + nodes[2]]
 }
 
+def loadGrammarFile(file):
+	g = Grammar.from_file("grammar")
+	return g
+
 def refinementChecker(scriptFile):
 	try:
 		g = Grammar.from_file("grammar")
