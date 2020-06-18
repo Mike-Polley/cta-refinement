@@ -51,6 +51,10 @@ def smtp():
     src = f.readlines()
     return render_template("smtp.html", src=src, len=len(src))
 
+@app.route("/article")
+def article():
+    return send_file("static/files/article.pdf")
+
 
 if __name__ == "__main__":
     app.run(threaded=True)
