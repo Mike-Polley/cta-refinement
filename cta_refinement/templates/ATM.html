@@ -3,9 +3,12 @@
 {% block content %}
 
 <div id="list">
+  <code>
   {%for i in range(0, len)%} 
   
-    <li>{{src[i]}}</li> 
+    <p>{{src[i]}}</p> 
 {%endfor%} 
+
+</code>
 </div>
 {% endblock %}
