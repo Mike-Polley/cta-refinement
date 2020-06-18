@@ -114,7 +114,7 @@ else:
 
 def webScriptRefinementChecker(script):
     try:
-        g = Grammar.from_file(os.path.join(dir,"grammar"))
+        g = Grammar.from_file(os.path.join("/var/www/cta_refinement/cta_refinement/dbmModules","grammar"))
         parser = Parser(g, actions=actions)
     except Exception as e:
         print dir 
