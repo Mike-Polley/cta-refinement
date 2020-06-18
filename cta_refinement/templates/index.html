@@ -3,17 +3,48 @@
 {% block content %}
       <h2> Welcome to the CTA Refinement Website </h2>
       <br>
-      <br>
-      <br>
-      <br>
       <h2> Refiner  </h2>
-      <form action="#" method="POST">
-         <label for="script"> CTA Refinement Script </label>
-         <br>
-         <input type="text" name="script" style="resize:none">
-         <br>
-         <input type="submit" value="Refine">
-      </form
+         <div id="editor" style="height: 500px; width: 1000px">Cta User = {
+Init q0;
+q0 UM!card q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x <= 30) q3;
+q3 MU?menu q4;
+};
+
+Cta User1 = {
+Init q0;
+q0 UM!card(x == 0) q1;
+q1 MU?pinrequest({x}) q2;
+q2 UM!pin(x == 0) q3;
+q3 MU?menu q4;
+}; 
+
+User1 refines? User;
+         </div>
+         
+         <input type="button" value="Submit" onclick="enterText();">
+         
+         <form id="hiddenForm" hidden method="POST">
+         <input id="script" name="script" type="text" >
+         </form>
+
+         <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/chrome");
+            editor.session.setMode("ace/mode/cta");
+            editor.setShowPrintMargin(true);
+            document.getElementById('editor').style.fontSize='20px';
+        
+            function enterText(){
+                var text = editor.getValue();
+                document.getElementById("script").value = text;
+                document.getElementById("hiddenForm").submit();
+            }
+            
+        
+        </script>
+
    {% endblock %}
 
 

@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
-    <title>Document</title>
+    <title>Base</title>
+    <style type="text/css" media="screen">
+      #editor { 
+          position: relative;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
+  </style>
 </head>
 <body>
   <div class="navbar">
@@ -25,5 +34,12 @@
     </div> 
   </div>
   <div id="content">{% block content %}{% endblock %}</div>
+  <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.session.setMode("ace/mode/cta");
+    editor.setShowPrintMargin(true);
+</script>
 </body>
 </html>
