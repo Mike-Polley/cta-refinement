@@ -7,19 +7,20 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="navbar">
-        <a href="#home">Home</a>
-        <a href="#news">News</a>
-        <div class="dropdown">
-          <button class="dropbtn">Dropdown 
-            <i class="fa fa-caret-down"></i>
-          </button>
-          <div class="Sample Scripts">
-            <a href="{{ url_for('atm')}}">ATM</a>
-            <a href="#">Ford Web-Portal</a>
-            <a href="#">SMTP Client</a>
-          </div>
-        </div> 
+  <div class="navbar">
+    <a href="#home">Home</a>
+    <a href="#news">News</a>
+    <div class="dropdown">
+      <button class="dropbtn">Sample Scripts
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content">
+        <a href="{{url_for('atm')}}">ATM</a>
+        <a href="{{url_for('fisher')}}">Fisher Mutual Exclusion</a>
+        <a href="#">Link 3</a>
       </div>
+    </div> 
+  </div>
+  <div id="content">{% block content %}{% endblock %}</div>
 </body>
 </html>
