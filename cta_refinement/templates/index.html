@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8">
-      <title>Home </title>
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+   <body>
       <h2> Welcome to the CTA Refinement Website </h2>
       <br>
       <br>
-   </head>
-   <body>
       <ul>
         <h2><li> Example Scripts </li></h2>
       </ul>
@@ -22,7 +19,9 @@
          <input type="submit" value="Refine">
       </form
    </body>
-</html>
+   {% endblock %}
+
+
 
 
 
