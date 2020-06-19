@@ -14,6 +14,11 @@ def home():
     else:
         return render_template("index.html")
 
+@app.route("/grammar")
+def grammar():
+    f = open("dbmModules/grammar","r")
+    src = f.readlines()
+    return render_template("grammar.html",src=src,len=len(src))
 
 @app.route("/sample-scripts/atm")
 def atm():
