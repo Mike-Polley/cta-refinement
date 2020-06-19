@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}OOI Word Counting{% endblock %}
+{% block title %}{{pageName}}{% endblock %}
 {% block content %}
+
 
 <div id="editor" style="height: 500px; width: 1000px">{%for i in range(0, len)%}{{src[i]}}{%endfor%}</div>
 <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -11,4 +12,5 @@
   editor.session.setMode("ace/mode/cta");
   document.getElementById('editor').style.fontSize='20px'; 
 </script>
+
 {% endblock %}

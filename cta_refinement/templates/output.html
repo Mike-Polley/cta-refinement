@@ -2,4 +2,5 @@
 {% block title %}Output{% endblock %}
 {% block content %}
       <h2> {{response}} </h2> 
+      <img src="{{url_for('static', filename=image)}}" alt="">
 {% endblock %}

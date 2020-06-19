@@ -84,7 +84,7 @@ def webQuery(env, cta1name, cta2name):
 	returnStringList.append("Query time: %s seconds. \n" % (end_time - start_time))
         return returnString.join(returnStringList)
 
-def webExecute(script):
+def webExecute(script,tf):
         returnStringList = []
         returnString = ""
     	env = dict()
@@ -102,7 +102,7 @@ def webExecute(script):
 				cta = env[c.ctaName]
 			except KeyError:
 				returnStringList.append("Cta " + c.ctaName + " undeclared.\n")
-			cta.toDot().render('output/' + c.ctaName, view=True, cleanup=True)
+			cta.toDot('png').render("/var/www/cta_refinement/cta_refinement/static/files/imagetemp/"+tf, view=False, cleanup=True)
 		else:
 			raise Exception("Invalid command: " + c.instrId)
         return returnString.join(returnStringList)
@@ -112,7 +112,7 @@ if "dbmModules" not in os.getcwd():
 else:
 	dir = os.getcwd()
 
-def webScriptRefinementChecker(script):
+def webScriptRefinementChecker(script,tf):
     try:
         g = Grammar.from_file(os.path.join("/var/www/cta_refinement/cta_refinement/dbmModules","grammar"))
         parser = Parser(g, actions=actions)
@@ -126,7 +126,7 @@ def webScriptRefinementChecker(script):
         return "Parser generation: Done. Parse input: Failed." + str(e) + ". Terminating.\n" 
         sys.exit()
     try:
-        response = webExecute(script)
+        response = webExecute(script,tf)
     except Exception as e:
         return str(e) + "Script execution: Failed. Terminating.\n"
         sys.exit()

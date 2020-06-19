@@ -134,8 +134,8 @@ class Cta:
 			ret = ret | set([e.source,e.destination])
 		return ret
 
-	def toDot(self):
-		dot = Digraph()
+	def toDot(self,format):
+		dot = Digraph(format=format)
 		for q in self.getStates():
 			dot.node(q,q)
 		dot.attr('node', shape='none')
@@ -180,7 +180,7 @@ def execute(script):
 				cta = env[c.ctaName]
 			except KeyError:
 				print "Cta " + c.ctaName + " undeclared."
-			cta.toDot().render('output/' + c.ctaName, view=True, cleanup=True)
+			cta.toDot('pdf').render('output/' + c.ctaName, view=True, cleanup=True)
 		else:
 			raise Exception("Invalid command: " + c.instrId)
 
