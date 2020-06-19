@@ -16,7 +16,7 @@ def testGrammarFile():
 def testInputFailure():
     """Test script failure response
     """
-    assert webScriptRefinementChecker("fail") == (
+    assert webScriptRefinementChecker("fail","dummyFile") == (
     'Parser generation: Done. Parse input: Failed.Error at '+
     '1:4:"fail*" => Expected: refines?. Terminating.\n')
 
@@ -27,7 +27,7 @@ def testInputSuccess():
     "q0 pq!a(x0 == 1000 & x1 == 1000,{x0; x1}) q1;"+
     "q0 pq?b(x0 < 1000 & x1 < 1000,{x0; x1}) q1;"+
     "};"+ 
-    "A refines? A;"))
+    "A refines? A;"),"dummyFile")
     assert ("Parser generation: Done.\nParse input: Done.\n"+
     "Loading A.\nChecking refinements between A and A.\nSend"+
     " restriction and receive procrastination refinement check:"+
