@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file
+from flask import Flask, render_template, request, url_for, redirect, send_file, Markup
 import sys
 sys.path.append('/var/www/cta_refinement/cta_refinement/dbmModules')
 from CtaWebFunctions import *
@@ -10,7 +10,13 @@ def home():
     if request.method == "POST":
         scriptInput = request.form["script"]
         response = webScriptRefinementChecker(str(scriptInput))
-        return render_template("output.html",response = response)
+        sepResponse = ""
+        for char in response:
+           if char == ".":
+              sepResponse = sepResponse + ".<br>"
+           else:
+              sepResponse = sepResponse + char
+        return render_template("output.html",response = Markup(sepResponse))
     else:
         return render_template("index.html")
 
