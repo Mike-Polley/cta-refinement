@@ -2,13 +2,13 @@
 {% block title %}OOI Word Counting{% endblock %}
 {% block content %}
 
-<div id="list">
-  <code>
-  {%for i in range(0, len)%} 
-  
-    <p>{{src[i]}}</p> 
-{%endfor%} 
-
-</code>
-</div>
+<div id="editor" style="height: 500px; width: 1000px">{%for i in range(0, len)%}{{src[i]}}{%endfor%}</div>
+<script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  var editor = ace.edit("editor");
+  editor.setReadOnly(true);
+  editor.setTheme("ace/theme/chrome");
+  editor.session.setMode("ace/mode/cta");
+  document.getElementById('editor').style.fontSize='20px'; 
+</script>
 {% endblock %}
