@@ -35,10 +35,29 @@ User1 refines? User;
             editor.setShowPrintMargin(true);
             document.getElementById('editor').style.fontSize='20px';
         
+            //function validateCta(cta){
+            //    var ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]*};');
+            //    if (ctaPattern.exec(cta)>0){
+            //        return true;
+            //    }
+            //    else{
+            //        console.log(ctaPattern.exec(cta));
+            //    }
+            //}
+
+
             function enterText(){
                 var text = editor.getValue();
-                document.getElementById("script").value = text;
+                var script = document.getElementById("script");
+                script.value = text;
+                console.log(script.value);
+                //console.log(script.value)
+                //if(validateCta(script.value)){
                 document.getElementById("hiddenForm").submit();
+                //}
+                //else{
+                //    console.log('No Beans');
+               // }
             }
             
         

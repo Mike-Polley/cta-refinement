@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file
+from flask import Flask, render_template, request, url_for, redirect, send_file, Markup
 import sys
 import tempfile
 sys.path.append('/var/www/cta_refinement/cta_refinement/dbmModules')
@@ -13,7 +13,13 @@ def home():
         tf = tempfile.NamedTemporaryFile().name
         response = webScriptRefinementChecker(str(scriptInput),tf)
         tf = "files/imagetemp" + tf + ".png"
-        return render_template("output.html",response = response,image = tf, pageName = "Home")
+        sepResponse = ""
+        for char in response:
+           if char == ".":
+              sepResponse = sepResponse + ".<br>"
+           else:
+              sepResponse = sepResponse + char
+        return render_template("output.html",response = Markup(sepResponse),image=tf,pageName="Home")
     else:
         return render_template("index.html",pageName="Home")
 
