@@ -70,3 +70,7 @@ body {
   padding: 13px;
   width: 250px;
 }
+
+#outputText {
+  resize: none;
+}

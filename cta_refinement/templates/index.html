@@ -3,27 +3,13 @@
 {% block content %}
       <h2> Welcome to the CTA Refinement Website </h2>
       <h2> Refiner  </h2>
-         <div id="editor" style="height: 500px; width: 1000px">Cta User = {
-Init q0;
-q0 UM!card q1;
-q1 MU?pinrequest({x}) q2;
-q2 UM!pin(x <= 30) q3;
-q3 MU?menu q4;
-};
-
-Cta User1 = {
-Init q0;
-q0 UM!card(x == 0) q1;
-q1 MU?pinrequest({x}) q2;
-q2 UM!pin(x == 0) q3;
-q3 MU?menu q4;
-}; 
-
-User1 refines? User;
+         <div id="editor" style="height: 500px; width: 1000px">
          </div>
-         
          <input type="button" value="Submit" onclick="enterText();">
-         
+
+         <input id="scriptFile" type="file">
+         <div id="file-content" style="display: none;"></div>
+
          <form id="hiddenForm" hidden method="POST">
          <input id="script" name="script" type="text" >
          </form>
@@ -34,7 +20,7 @@ User1 refines? User;
             editor.session.setMode("ace/mode/cta");
             editor.setShowPrintMargin(true);
             document.getElementById('editor').style.fontSize='20px';
-        
+           
             //function validateCta(cta){
             //    var ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]*};');
             //    if (ctaPattern.exec(cta)>0){
@@ -60,7 +46,38 @@ User1 refines? User;
                // }
             }
             
-        
+            var scriptFile = document.getElementById('scriptFile');
+            scriptFile.addEventListener('change', readSingleFile, false);
+
+            function readSingleFile(e) {
+               var file = e.target.files[0];
+               if (!file) {
+                  return;
+               }
+               var reader = new FileReader();
+               reader.onload = function(e) {
+                  var contents = e.target.result;
+                  displayContents(contents);
+               };
+               reader.readAsText(file);
+            }
+
+            function displayContents(contents) {
+               var element = document.getElementById('file-content');
+               element.innerText = contents;
+               initEditor(contents);
+            }
+
+            function initEditor(text) {
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/chrome");
+            editor.set
+            editor.session.setMode("ace/mode/cta");
+            editor.setShowPrintMargin(true);
+            editor.setValue(text);
+            document.getElementById('editor').style.fontSize='20px';
+            }
+
         </script>
 
    {% endblock %}

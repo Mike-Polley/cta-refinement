@@ -11,15 +11,9 @@ def home():
     if request.method == "POST":
         scriptInput = request.form["script"]
         tf = tempfile.NamedTemporaryFile().name
-        response = webScriptRefinementChecker(str(scriptInput),tf)
+        scriptResponse = webScriptRefinementChecker(str(scriptInput),tf)
         tf = "files/imagetemp" + tf + ".png"
-        sepResponse = ""
-        for char in response:
-           if char == ".":
-              sepResponse = sepResponse + ".<br>"
-           else:
-              sepResponse = sepResponse + char
-        return render_template("output.html",response = Markup(sepResponse),image=tf,pageName="Home")
+        return render_template("output.html",response = Markup(scriptResponse),image=tf,pageName="Home")
     else:
         return render_template("index.html",pageName="Home")
 
