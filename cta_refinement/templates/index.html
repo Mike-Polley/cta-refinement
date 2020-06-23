@@ -1,11 +1,27 @@
 {% extends "base.html" %}
 {% block title %}{{pageName}}{% endblock %}
 {% block content %}
+<section class="container">
+    <div class="right">
       <h2> Welcome to the CTA Refinement Website </h2>
-      <h2> Refiner  </h2>
+      <p>The tool allows CTA creation, drawing and refinement checking through a simple scripting language.<br> 
+      CTA are created, using CTA Name = {}; an example is provided in the script input box.<br>
+      User and User1 are the CTA names, Init q0 marks q0 as the initial state. <br>
+      The remaining lines defines edges. States are automatically inferred. Guards can be omitted when True.<br>
+      Similarly, an omitted reset sets is interpreted as the empty reset set.</p>
+      <p>CTAs can be dynamically drawn with:
+        <br>
+        Show(U);
+        <br>
+        Refinement checking is performed with:
+        <br>
+        User1 refines? User2;
+        <br>
+        The full grammar of the language is available through the grammar link.</p>
+    </div>
       <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
       <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-         <div id="editor" style="height: 500px; width: 1000px">Cta User = {
+         <div class="left" id="editor" style="height: 500px; width: 1000px">Cta User = {
 Init q0;
 q0 UM!card q1;
 q1 MU?pinrequest({x}) q2;
@@ -22,9 +38,12 @@ q3 MU?menu q4;
 }; 
 
 User1 refines? User;
+
          </div>
-         
          <input type="button" value="Submit" onclick="enterText();">
+</section>
+         
+         
          
          <form id="hiddenForm" hidden method="POST">
          <input id="script" name="script" type="text" >
@@ -61,6 +80,8 @@ User1 refines? User;
                 var text = editor.getValue();
                 var script = document.getElementById("script");
                 script.value = text;
+                document.getElementById("malFormed").hidden = true;
+                document.getElementById("reqRefine").hidden = true;
                 if(validateCta(script.value)){
                     document.getElementById("hiddenForm").submit();
                 }

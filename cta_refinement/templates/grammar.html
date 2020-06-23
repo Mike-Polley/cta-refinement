@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block title %}{{pageName}}{% endblock %}
 {% block content %}
-
-<div>{%for i in range(0, len)%}{{src[i]}}{%endfor%}</div>
+<br>
+<div>{%for i in range(0, len)%}
+    {{src[i]}}<br>
+    {%endfor%}</div>
 
 {% endblock %}

@@ -70,3 +70,11 @@ body {
   padding: 13px;
   width: 250px;
 }
+
+.warning {
+  border-radius:6px;
+  border-color: rgb(161, 0, 0);
+  background-color: rgb(250, 133, 122);
+  color: rgb(161, 0, 0);
+  padding: 20px;
+}
