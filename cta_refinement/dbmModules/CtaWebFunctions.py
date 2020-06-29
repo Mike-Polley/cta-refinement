@@ -1,12 +1,9 @@
 """Cta Web Functions
-
 This module provides functions to be used when interfacing with the Flask
 webframework specifically it allows for CtaRefinement tool to accept String
 data types and return Strings back for rendering within webtemplates.
-
 This file can also be imported as a module and contains the following
 functions:
-
     * webRefines - checks for refinements between two Cta Objects returns
                     a String output of refinement outcome.
     * webSrRefines - implements webRefines with a restrictor function.
@@ -140,4 +137,3 @@ def main():
 
 if __name__=="__main__":
     main()
-

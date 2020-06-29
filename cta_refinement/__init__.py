@@ -15,17 +15,9 @@ def home():
 def output():
     a = request.args.get('a', 0, type=str)
     tf = tempfile.NamedTemporaryFile().name
-    response = webScriptRefinementChecker(str(a),tf)
+    scriptResponse = webScriptRefinementChecker(str(a),tf)
     tf = "files/imagetemp" + tf + ".png"
-    sepResponse = ""
-    for char in response:
-        if char == ".":
-            sepResponse = sepResponse + ".<br>"
-        else:
-            sepResponse = sepResponse + char
-    return jsonify(result=Markup(sepResponse),image=url_for('static',filename=tf))
-
-
+    return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
 
 @app.route("/grammar")
 def grammar():

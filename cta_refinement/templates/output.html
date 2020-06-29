@@ -1,20 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Output{% endblock %}
 {% block content %}
-      <h2> {{response}} </h2> 
+      <h2> Script </h2> 
       <img src="{{url_for('static', filename=image)}}" alt="">
 <div>
-   <input readonly type="text" value="{{response}}" id="outputBox">
+   <p><textarea readonly id="outputText" rows="20" cols="45">{{response}}</textarea></p>
    <br>
+   <input type="button" id="dwn-btn" value="Download"/>
 </div>
-<br>
-<button onclick="copyScript()"> Copy Text </button>
 <script>
-function copyScript() {
-  const copyText = document.getElementById("outputBox");
-  copyText.select();
-  document.execCommand("copy");
-  alert("Text Copied");
-}
-</script>
+function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+  
+      element.style.display = 'none';
+      document.body.appendChild(element);
+  
+      element.click();
+  
+      document.body.removeChild(element);
+  }
+  
+  // Start file download.
+  document.getElementById("dwn-btn").addEventListener("click", function(){
+      // Generate download of hello.txt file with some content
+      var text = document.getElementById("outputText").value;
+      var filename = "results.txt";
+      
+      download(filename, text);
+  }, false);
+  </script>
+
 {% endblock %}

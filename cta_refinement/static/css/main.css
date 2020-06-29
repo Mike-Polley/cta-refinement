@@ -78,3 +78,7 @@ body {
   color: rgb(161, 0, 0);
   padding: 20px;
 }
+#outputText {
+  resize: none;
+  width:100%;
+}
