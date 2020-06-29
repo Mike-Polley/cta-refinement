@@ -7,7 +7,7 @@
     </div>
       <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
       <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-         <div class="left" id="editor" style="height: 500px; width: 1000px">Cta User = {
+         <div id="editor" style="height: 500px; width: 1000px">Cta User = {
 Init q0;
 q0 UM!card q1;
 q1 MU?pinrequest({x}) q2;
@@ -54,7 +54,6 @@ User1 refines? User;
                 let ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]*};');
                 var refinesMatch = ctaRefines.exec(cta);
                 var patternMatch = ctaPattern.exec(cta);
-                console.log(patternMatch);
                 if (patternMatch === null){
                     document.getElementById("malFormed").hidden = false;
                 }
