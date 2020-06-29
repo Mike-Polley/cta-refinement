@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file, Markup
+from flask import Flask, render_template, request, url_for, redirect, send_file, Markup,jsonify
 import sys
 import tempfile
 sys.path.append('/var/www/cta_refinement/cta_refinement/dbmModules')
@@ -6,22 +6,26 @@ from CtaWebFunctions import *
 
 app = Flask(__name__)
 
+
 @app.route("/",methods=["POST","GET"])
 def home():
-    if request.method == "POST":
-        scriptInput = request.form["script"]
-        tf = tempfile.NamedTemporaryFile().name
-        response = webScriptRefinementChecker(str(scriptInput),tf)
-        tf = "files/imagetemp" + tf + ".png"
-        sepResponse = ""
-        for char in response:
-           if char == ".":
-              sepResponse = sepResponse + ".<br>"
-           else:
-              sepResponse = sepResponse + char
-        return render_template("output.html",response = Markup(sepResponse),image=tf,pageName="Home")
-    else:
-        return render_template("index.html",pageName="Home")
+    return render_template('index.html',pageName="Home")
+
+@app.route("/output",methods=["POST","GET"])
+def output():
+    a = request.args.get('a', 0, type=str)
+    tf = tempfile.NamedTemporaryFile().name
+    response = webScriptRefinementChecker(str(a),tf)
+    tf = "files/imagetemp" + tf + ".png"
+    sepResponse = ""
+    for char in response:
+        if char == ".":
+            sepResponse = sepResponse + ".<br>"
+        else:
+            sepResponse = sepResponse + char
+    return jsonify(result=Markup(sepResponse),image=url_for('static',filename=tf))
+
+
 
 @app.route("/grammar")
 def grammar():

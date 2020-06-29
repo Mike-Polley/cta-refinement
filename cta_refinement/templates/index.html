@@ -4,20 +4,6 @@
 <section class="container">
     <div class="right">
       <h2> Welcome to the CTA Refinement Website </h2>
-      <p>The tool allows CTA creation, drawing and refinement checking through a simple scripting language.<br> 
-      CTA are created, using CTA Name = {}; an example is provided in the script input box.<br>
-      User and User1 are the CTA names, Init q0 marks q0 as the initial state. <br>
-      The remaining lines defines edges. States are automatically inferred. Guards can be omitted when True.<br>
-      Similarly, an omitted reset sets is interpreted as the empty reset set.</p>
-      <p>CTAs can be dynamically drawn with:
-        <br>
-        Show(U);
-        <br>
-        Refinement checking is performed with:
-        <br>
-        User1 refines? User2;
-        <br>
-        The full grammar of the language is available through the grammar link.</p>
     </div>
       <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
       <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
@@ -41,12 +27,15 @@ User1 refines? User;
 
          </div>
          <input type="button" value="Submit" onclick="enterText();">
+         <p id="result"></p>
+         <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
 </section>
          
          
          
          <form id="hiddenForm" hidden method="POST">
          <input id="script" name="script" type="text" >
+         <input type="button" id="scriptBtn">
          </form>
          <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
          <script>
@@ -54,7 +43,9 @@ User1 refines? User;
             editor.setTheme("ace/theme/chrome");
             editor.session.setMode("ace/mode/cta");
             editor.setShowPrintMargin(true);
+            editor.$highlightBrackets(true);
             document.getElementById('editor').style.fontSize='20px';
+            document.getElementById('editor').style.width = '100%';
 
         
             function validateCta(cta){
@@ -83,9 +74,22 @@ User1 refines? User;
                 document.getElementById("malFormed").hidden = true;
                 document.getElementById("reqRefine").hidden = true;
                 if(validateCta(script.value)){
-                    document.getElementById("hiddenForm").submit();
+                    document.getElementById("scriptBtn").click();
                 }
             }
+
+
+  $(function() {
+    $('#hiddenForm').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + 'output', {
+        a: $('input[name="script"]').val()
+      }, function(data) {
+        $("#result").html(data.result);
+        $("#resultImg").attr('src',data.image);
+      });
+      return false;
+    });
+  });
             
         
         </script>
