@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, send_file, Markup,jsonify
 import sys
 import tempfile
-sys.path.append('/var/www/cta_refinement/cta_refinement/dbmModules')
+from settings import DBMDIRECTORY
+sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
 
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/",methods=["POST","GET"])
 def home():
-    return render_template('index.html',pageName="Home")
+    return render_template("index.html", pageName="Home")
 
 @app.route("/output",methods=["POST","GET"])
 def output():
@@ -27,37 +28,37 @@ def grammar():
 
 @app.route("/sample-scripts/atm")
 def atm():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/ATM","r")
+    f = open(DBMDIRECTORY+"Examples/ATM","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="ATM")
 
 @app.route("/sample-scripts/fisher-mutual-exclusion")
 def fisher():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/FisherMutualExclusion","r")
+    f = open(DBMDIRECTORY+"Examples/FisherMutualExclusion","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="Fisher Mutual Exclusion")
 
 @app.route("/sample-scripts/ford-credit-portal")
 def ford():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/FordCreditWebPortal","r")
+    f = open(DBMDIRECTORY+"Examples/FordCreditWebPortal","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="Ford Credit Portal")
 
 @app.route("/sample-scripts/ooi-word-counting")
 def ooi():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/OOIWordCounting","r")
+    f = open(DBMDIRECTORY+"Examples/OOIWordCounting","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="OOI Word Counting")
 
 @app.route("/sample-scripts/scheduled-task-protocol")
 def task():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/ScheduledTaskProtocol","r")
+    f = open(DBMDIRECTORY+"Examples/ScheduledTaskProtocol","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="Scheduled Task Protocol")
 
 @app.route("/sample-scripts/smtp-client")
 def smtp():
-    f = open("/var/www/cta_refinement/cta_refinement/dbmModules/Examples/SMTPClient","r")
+    f = open(DBMDIRECTORY+"Examples/SMTPClient","r")
     src = f.readlines()
     return render_template("examples.html", src=src, len=len(src),pageName="SMTP Client")
 

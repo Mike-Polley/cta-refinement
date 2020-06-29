@@ -25,65 +25,35 @@ q3 MU?menu q4;
 
 User1 refines? User;
 
-         </div>
-         <input type="button" value="Submit" onclick="enterText();">
-         <input id="scriptFile" type="file">
-         <div id="file-content" style="display: none;"></div>
-         <div>
-          <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
-          <br>
-          <input type="button" id="dwn-btn" value="Download"/>
-       </div>
-         <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
+</div>
+   <input type="button" value="Submit" onclick="enterText();">
+    <input id="scriptFile" type="file">
+     <div id="file-content" style="display: none;"></div>
+      <div>
+       <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
+       <br>
+       <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
+      </div>
+    <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
 </section>
          
          
          
-         <form id="hiddenForm" hidden method="POST">
-         <input id="script" name="script" type="text" >
-         <input type="button" id="scriptBtn">
-         </form>
-         <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-         <script>
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/chrome");
-            editor.session.setMode("ace/mode/cta");
-            editor.setShowPrintMargin(true);
-            editor.$highlightBrackets(true);
-            document.getElementById('editor').style.fontSize='20px';
-            document.getElementById('editor').style.width = '100%';
-
-        
-            function validateCta(cta){
-                
-                let ctaRefines = new RegExp('.* refines\\? .*;');
-                let ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]*};');
-                var refinesMatch = ctaRefines.exec(cta);
-                var patternMatch = ctaPattern.exec(cta);
-                if (patternMatch === null){
-                    document.getElementById("malFormed").hidden = false;
-                }
-                else if(refinesMatch === null){
-                    document.getElementById("reqRefine").hidden = false;
-                }
-                else if(patternMatch.length>=1){
-                    return true;
-                }
-            }
-
-
-            function enterText(){
-                var text = editor.getValue();
-                var script = document.getElementById("script");
-                script.value = text;
-                document.getElementById("malFormed").hidden = true;
-                document.getElementById("reqRefine").hidden = true;
-                if(validateCta(script.value)){
-                    document.getElementById("scriptBtn").click();
-                }
-            }
-
-
+<form id="hiddenForm" hidden method="POST">
+  <input id="script" name="script" type="text" >
+  <input type="button" id="scriptBtn">
+</form>
+<script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../static/js/index.js"></script>
+ <script>
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/chrome");
+  editor.session.setMode("ace/mode/cta");
+  editor.setShowPrintMargin(true);
+  editor.$highlightBrackets(true);
+  document.getElementById('editor').style.fontSize='20px';
+  document.getElementById('editor').style.width = '100%';
+ 
   $(function() {
     $('#hiddenForm').bind('click',function() {
       $.getJSON($SCRIPT_ROOT + 'output', {
@@ -95,72 +65,9 @@ User1 refines? User;
       return false;
     });
   });
-            
-            var scriptFile = document.getElementById('scriptFile');
-            scriptFile.addEventListener('change', readSingleFile, false);
-
-            function readSingleFile(e) {
-               var file = e.target.files[0];
-               if (!file) {
-                  return;
-               }
-               var reader = new FileReader();
-               reader.onload = function(e) {
-                  var contents = e.target.result;
-                  displayContents(contents);
-               };
-               reader.readAsText(file);
-            }
-
-            function displayContents(contents) {
-               var element = document.getElementById('file-content');
-               element.innerText = contents;
-               initEditor(contents);
-            }
-
-            function initEditor(text) {
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/chrome");
-            editor.set
-            editor.session.setMode("ace/mode/cta");
-            editor.setShowPrintMargin(true);
-            editor.setValue(text);
-            document.getElementById('editor').style.fontSize='20px';
-            document.getElementById('editor').style.width='100%';
-            }
-
-        </script>
-
-<script>
-  function download(filename, text) {
-        var element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-    
-        element.style.display = 'none';
-        document.body.appendChild(element);
-    
-        element.click();
-    
-        document.body.removeChild(element);
-    }
-    
-    // Start file download.
-    document.getElementById("dwn-btn").addEventListener("click", function(){
-        // Generate download of hello.txt file with some content
-        var text = document.getElementById("outputText").value;
-        var filename = "results.txt";
-        
-        download(filename, text);
-    }, false);
-
-    function enterSampleScript(script){
-      document.getElementById("editor").value = script;
-    }
-
-    </script>
-
-   {% endblock %}
+         
+</script>
+{% endblock %}
 
 
 
