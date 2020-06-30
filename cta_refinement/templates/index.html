@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{pageName}}{% endblock %}
 {% block content %}
-<section class="container">
-    <div class="right">
-      <h2> Welcome to the CTA Refinement Website </h2>
-    </div>
-      <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
-      <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-         <div id="editor" style="height: 500px; width: 1000px">Cta User = {
+<div class="main">
+  <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
+  <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
+<div id="editor" style="height: 500px; width: 1000px">Cta User = {
 Init q0;
 q0 UM!card q1;
 q1 MU?pinrequest({x}) q2;
@@ -28,14 +25,17 @@ User1 refines? User;
 </div>
    <input type="button" value="Submit" onclick="enterText();">
     <input id="scriptFile" type="file">
-     <div id="file-content" style="display: none;"></div>
-      <div>
-       <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
-       <br>
-       <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
-      </div>
+<div id="file-content" style="display: none;"></div>
+   <div>
+    <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
+    <br>
+    <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
+   </div>
+<div>
     <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
-</section>
+</div>
+</div>
+
          
          
          
@@ -44,9 +44,10 @@ User1 refines? User;
   <input type="button" id="scriptBtn">
 </form>
 <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="../static/js/index.js"></script>
-<script src="../static/js/atm.js"></script>
- <script>
+<script>
+
+  //Setup editor window
+
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/chrome");
   editor.session.setMode("ace/mode/cta");
@@ -54,18 +55,19 @@ User1 refines? User;
   editor.$highlightBrackets(true);
   document.getElementById('editor').style.fontSize='20px';
   document.getElementById('editor').style.width = '100%';
- 
+
+  //Ajax call to server to retrieve refinement and image response
   $(function() {
-    $('#hiddenForm').bind('click',function() {
-      $.getJSON($SCRIPT_ROOT + 'output', {
-        a: $('input[name="script"]').val()
-      }, function(data) {
-        $("#outputText").html(data.result);
-        $("#resultImg").attr('src',data.image);
-      });
-      return false;
-    });
-  });
+   $('#hiddenForm').bind('click',function() {
+     $.getJSON($SCRIPT_ROOT + 'output', {
+       a: $('input[name="script"]').val()
+     }, function(data) {
+       $("#outputText").html(data.result);
+       $("#resultImg").attr('src',data.image);
+     });
+     return false;
+   });
+ });
          
 </script>
 {% endblock %}
