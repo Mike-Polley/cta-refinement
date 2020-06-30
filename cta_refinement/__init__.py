@@ -22,7 +22,7 @@ def output():
 
 @app.route("/grammar")
 def grammar():
-    f = open("dbmModules/grammar","r")
+    f = open(DBMDIRECTORY+"grammar","r")
     src = f.readlines()
     return render_template("grammar.html",src=src,len=len(src),pageName="Grammar Rules")
 

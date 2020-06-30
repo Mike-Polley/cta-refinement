@@ -33,8 +33,8 @@ function enterText(){
 
 //Functions for uploading external file and placing in editor window for submission
 
-// var scriptFile = document.getElementById('scriptFile');
-// scriptFile.addEventListener('change', readSingleFile, false);
+var scriptFile = document.getElementById('scriptFile');
+scriptFile.addEventListener('change', readSingleFile, false);
 
 function readSingleFile(e) {
    var file = e.target.files[0];
