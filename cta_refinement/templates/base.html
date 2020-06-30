@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/css/main.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script src="../static/js/atm.js"></script>
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
@@ -31,12 +33,12 @@
         <i class="fa fa-caret-down"></i>
       </button>
       <div class="dropdown-content">
-        <a href="{{url_for('ATM')}}">ATM</a>
-        <a href="{{url_for('fisher')}}">Fisher Mutual Exclusion</a>
-        <a href="{{url_for('ford')}}">Ford Credit Portal</a>
-        <a href="{{url_for('ooi')}}">OOI Word Counting</a>
-        <a href="{{url_for('task')}}">Scheduled Task Protocol</a>
-        <a href="{{url_for('smtp')}}">SMTP Client</a>
+        <a id="atm-link">ATM</a>
+        <a id="fisher-link">Fisher Mutual Exclusion</a>
+        <a id="ford-link">Ford Credit Portal</a>
+        <a id="ooi-link">OOI Word Counting</a>
+        <a id="sched-link">Scheduled Task Protocol</a>
+        <a id="smtp-link">SMTP Client</a>
       </div>
     </div> 
   </div>
@@ -45,5 +47,65 @@
 </body>
 
 <script>
+   $(function() {
+    $('#atm-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/atm', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
+  $(function() {
+    $('#fisher-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/fisher-mutual-exclusion', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
+  $(function() {
+    $('#ford-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/ford-credit-portal', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
+  $(function() {
+    $('#ooi-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/ooi-word-counting', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
+  $(function() {
+    $('#sched-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/scheduled-task-protocol', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
+  $(function() {
+    $('#smtp-link').bind('click',function() {
+      $.getJSON($SCRIPT_ROOT + '/sample-scripts/smtp-client', {
+      }, function(data) {
+        editor.setValue(data.src);
+      });
+      return false;
+    });
+  });
+
 </script>
 </html>

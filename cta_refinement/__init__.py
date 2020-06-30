@@ -29,38 +29,38 @@ def grammar():
 @app.route("/sample-scripts/atm")
 def atm():
     f = open(DBMDIRECTORY+"Examples/ATM","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="ATM")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/sample-scripts/fisher-mutual-exclusion")
 def fisher():
     f = open(DBMDIRECTORY+"Examples/FisherMutualExclusion","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="Fisher Mutual Exclusion")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/sample-scripts/ford-credit-portal")
 def ford():
     f = open(DBMDIRECTORY+"Examples/FordCreditWebPortal","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="Ford Credit Portal")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/sample-scripts/ooi-word-counting")
 def ooi():
     f = open(DBMDIRECTORY+"Examples/OOIWordCounting","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="OOI Word Counting")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/sample-scripts/scheduled-task-protocol")
 def task():
     f = open(DBMDIRECTORY+"Examples/ScheduledTaskProtocol","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="Scheduled Task Protocol")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/sample-scripts/smtp-client")
 def smtp():
     f = open(DBMDIRECTORY+"Examples/SMTPClient","r")
-    src = f.readlines()
-    return render_template("examples.html", src=src, len=len(src),pageName="SMTP Client")
+    src = f.read()
+    return jsonify(src=Markup(src))
 
 @app.route("/article")
 def article():
