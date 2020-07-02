@@ -2,9 +2,10 @@
 {% block title %}{{pageName}}{% endblock %}
 {% block content %}
 <div class="main">
+  <input type="button" id="share" value="Share" onclick="share();"><p id="shareURL">{% if id %} your url is: /share/{{id}} {% endif %}</p>
   <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
   <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-<div id="editor" style="height: 500px; width: 1000px">Cta User = {
+<div id="editor" style="height: 500px; width: 1000px">{% if session %} {{session}} {% else %} Cta User = {
 Init q0;
 q0 UM!card q1;
 q1 MU?pinrequest({x}) q2;
@@ -21,7 +22,7 @@ q3 MU?menu q4;
 }; 
 
 User1 refines? User;
-
+{% endif %}
 </div>
    <input type="button" value="Submit" onclick="enterText();">
     <input id="scriptFile" type="file">
@@ -44,8 +45,7 @@ User1 refines? User;
   <input type="button" id="scriptBtn">
 </form>
 <form id="hiddenForm2" name="hiddenForm2" method="POST" action="{{url_for('share')}}">
-  <input type="text" hidden name="script2" id="script2">
-  <input type="button" value="Share" onclick="share();">
+  <textarea hidden name="script2" id="script2" cols="30" rows="10"></textarea>
 </form>
 <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="../static/js/index.js"></script>
@@ -64,7 +64,7 @@ User1 refines? User;
   //Ajax call to server to retrieve refinement and image response
   $(function() {
    $('#hiddenForm').bind('click',function() {
-     $.getJSON($SCRIPT_ROOT + 'share/output', {
+     $.getJSON($SCRIPT_ROOT + 'output', {
        a: $('input[name="script"]').val()
      }, function(data) {
        $("#outputText").html(data.result);
@@ -79,7 +79,6 @@ User1 refines? User;
    document.getElementById("hiddenForm2").submit();
  }
 
-        
 </script>
 {% endblock %}
 

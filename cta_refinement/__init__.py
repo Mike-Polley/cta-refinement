@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, send_file, Markup,jsonify
 import sys
+import os
 import tempfile
 from settings import DBMDIRECTORY, JSONDIRECTORY
 sys.path.append(DBMDIRECTORY)
@@ -72,20 +73,26 @@ def smtp():
 def article():
     return send_file("static/files/article.pdf")
 
-@app.route("/share",methods=['POST'])
+@app.route("/share",methods=['POST', 'GET'])
 def share():
     if request.method == 'POST':
         hash = random.getrandbits(32)
         genId = hash
-        genSession = request.form['script2']
-        print(genSession)
-        payload = {}
-        payload[genId] = []
-        payload[genId] = {
-            'session':genSession
-        }
-        with open(JSONDIRECTORY+'sessions.json','w') as outfile:
-            json.dump(payload,outfile)
+        genSession = Markup(request.form['script2'])
+ 
+        a = []
+        payload = {'id': genId, 'session': genSession}
+        if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
+            a.append(payload)
+            with open(JSONDIRECTORY+'sessions.json','w') as outfile:
+                outfile.write(json.dumps(a))
+        else:
+            with open(JSONDIRECTORY+'sessions.json') as outfile:
+                data = json.load(outfile)
+
+            data.append(payload)
+            with open(JSONDIRECTORY+'sessions.json','w') as outfile:
+                outfile.write(json.dumps(data))
         return redirect("/share/"+str(genId))
     else:
         return render_template("index.html", pageName="Home")
@@ -93,8 +100,9 @@ def share():
 @app.route("/share/<int:id>",methods=['GET'])
 def getShare(id):
     data = json.loads(open(JSONDIRECTORY+'sessions.json','r').read())
-    session = data[str(id)]    
-    return render_template("share.html", pageName="home", session=session, id=id)
+    dict = next(item for item in data if item["id"] == id)
+    session = dict.get('session')
+    return render_template("index.html", pageName="home", session=session, id=id)
 
 
 
