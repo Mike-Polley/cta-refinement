@@ -2,10 +2,26 @@ from flask import Flask, render_template, request, url_for, redirect, send_file,
 import sys
 import tempfile
 from settings import DBMDIRECTORY
+# from models import shareSession, db
 sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
+import random
+from flask_sqlalchemy import SQLAlchemy
+
+
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cta.db'
+db = SQLAlchemy(app)
+
+
+class shareSession(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    session = db.Column(db.Text,nullable=True)
+
+    def __repr__(self):
+        return 'Session ' + str(self.id)
 
 
 @app.route("/",methods=["POST","GET"])
@@ -65,6 +81,27 @@ def smtp():
 @app.route("/article")
 def article():
     return send_file("static/files/article.pdf")
+
+@app.route("/share",methods=['POST'])
+def share():
+    if request.method == 'POST':
+        hash = random.getrandbits(32)
+        genId = hash
+        genSession = request.form['script2']
+        saveSession = shareSession(id=genId,session=str(genSession))
+        db.session.add(saveSession)
+        db.session.commit()
+        return redirect("/share/"+str(genId))
+    else:
+        return render_template("index.html", pageName="Home")
+
+@app.route("/share/<int:id>",methods=['GET'])
+def getShare(id):
+    session = shareSession.query.get_or_404(id)
+    return render_template("share.html", pageName="home", session=session)
+
+
+
 
 
 if __name__ == "__main__":

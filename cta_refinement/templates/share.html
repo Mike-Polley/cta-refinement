@@ -4,23 +4,7 @@
 <div class="main">
   <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
   <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-<div id="editor" style="height: 500px; width: 1000px">Cta User = {
-Init q0;
-q0 UM!card q1;
-q1 MU?pinrequest({x}) q2;
-q2 UM!pin(x <= 30) q3;
-q3 MU?menu q4;
-};
-
-Cta User1 = {
-Init q0;
-q0 UM!card(x == 0) q1;
-q1 MU?pinrequest({x}) q2;
-q2 UM!pin(x == 0) q3;
-q3 MU?menu q4;
-}; 
-
-User1 refines? User;
+<div id="editor" rows="20" cols="45" style="height: 500px; width: 1000px">{{session.session}}
 
 </div>
    <input type="button" value="Submit" onclick="enterText();">
@@ -43,9 +27,9 @@ User1 refines? User;
   <input id="script" name="script" type="text" >
   <input type="button" id="scriptBtn">
 </form>
-<form id="hiddenForm2" name="hiddenForm2" method="POST" action="{{url_for('share')}}">
-  <input type="text" hidden name="script2" id="script2">
-  <input type="button" value="Share" onclick="share();">
+<form name="hiddenForm2" method="POST" action="{{url_for('share')}}">
+  <input type="text" hidden name="script2">
+  <input type="button" value="Share" onclick="share();"><p>{{session.id}}</p>
 </form>
 <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="../static/js/index.js"></script>
@@ -75,8 +59,8 @@ User1 refines? User;
  });
 
  function share(){
-   document.getElementById("script2").value = editor.getValue();
-   document.getElementById("hiddenForm2").submit();
+   document.getElementsByName("scipt2").value = editor.getValue();
+   document.getElementsByName("hiddenForm2").submit();
  }
 
         

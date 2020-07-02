@@ -31,10 +31,10 @@ def webRefines(ctaA,ctaB,f):
 		return False
 	for t in ctaA.transitions:
 		if not search(lambda x : f(t,x),ctaB.transitions):
-			return "No matching edge for " + str(t) + " of left machine. \n" + "False.\n"
+			return "No matching edge for " + str(t) + " of left machine.\n" + "False.\n"
 	for t in ctaB.transitions:
 		if not search(lambda x : f(x,t),ctaA.transitions):
-			return "No matching edge for " + str(t) + " of right machine .\n" + "False.\n"
+			return "No matching edge for " + str(t) + " of right machine.\n" + "False.\n"
 	return "True"
 
 def webSrRefines(ctaA,ctaB):
@@ -52,9 +52,9 @@ def webllesp(ctaA,ctaB):
 	for q in ctaA.states:
 		PP = ctaA.post(ctaA.pre(q),q)
 		if not q in ctaB.states:
-			return "State " + q + " not present in second machine.\n" + "False."
+			return "State " + q + " not present in second machine.\n" + "False.\n"
 		if not (PP & ctaB.les(q)) <= (PP & ctaA.les(q)):
-			return "Refinement is not llesp at state " + q + ".\n" + "False."
+			return "Refinement is not llesp at state " + q + ".\n" + "False.\n"
 	return "True."
 
 
