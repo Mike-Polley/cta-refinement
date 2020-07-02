@@ -64,7 +64,7 @@ User1 refines? User;
   //Ajax call to server to retrieve refinement and image response
   $(function() {
    $('#hiddenForm').bind('click',function() {
-     $.getJSON($SCRIPT_ROOT + 'output', {
+     $.getJSON($SCRIPT_ROOT + 'share/output', {
        a: $('input[name="script"]').val()
      }, function(data) {
        $("#outputText").html(data.result);
