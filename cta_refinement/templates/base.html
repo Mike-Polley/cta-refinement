@@ -42,6 +42,8 @@
           <a id="smtp-link">SMTP Client</a>
         </div>
       </div>
+      <a onclick=share();>Share</a>
+      <p id="shareURL">{% if id %} Your url is: /share/{{id}} {% endif %}</p>
     </div>
   </div>
 {% block content %}{% endblock %}

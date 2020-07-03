@@ -2,10 +2,10 @@
 {% block title %}{{pageName}}{% endblock %}
 {% block content %}
 <div class="main">
-  <input type="button" id="share" value="Share" onclick="share();"><p id="shareURL">{% if id %} your url is: /share/{{id}} {% endif %}</p>
-  <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
+  <p id="malFormed" class="warning" hidden=true>Please specify at least two CTAs.</p>
   <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
-<div id="editor" style="height: 500px; width: 1000px">{% if session %} {{session}} {% else %} Cta User = {
+  <p id="reqCloseTag" class="warning" hidden=true>You have a CTA without a matching opening or closing ({}). Please alter and try again.</p>
+<div id="editor" style="height: 500px; width: 1000px">{% if session %} {{session}} {% else %}Cta User = {
 Init q0;
 q0 UM!card q1;
 q1 MU?pinrequest({x}) q2;
@@ -48,7 +48,7 @@ User1 refines? User;
   <textarea hidden name="script2" id="script2" cols="30" rows="10"></textarea>
 </form>
 <script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="../static/js/index.js"></script>
+
 <script>
 
   //Setup editor window
@@ -74,12 +74,10 @@ User1 refines? User;
    });
  });
 
- function share(){
-   document.getElementById("script2").value = editor.getValue();
-   document.getElementById("hiddenForm2").submit();
- }
+
 
 </script>
+<script src="../static/js/index.js"></script>
 {% endblock %}
 
 

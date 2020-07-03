@@ -3,18 +3,39 @@
 function validateCta(cta){
 
    let ctaRefines = new RegExp('.* refines\\? .*;');
-   let ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]*};');
+   let ctaPattern = new RegExp('Cta [A-Za-z]\\w+ = {[\\s\\S]{1,}?};',"g");
+   let enteredCtas = editor.getValue();
+   
+   var matchingArray = [];
+   let matched;
    var refinesMatch = ctaRefines.exec(cta);
-   var patternMatch = ctaPattern.exec(cta);
 
-   if (patternMatch === null){
+   var tags = 0;
+   for(i=0; i < enteredCtas.length; i++){
+      if (enteredCtas[i] == "{"|enteredCtas[i] == "("){
+            tags++;
+      }
+      else if (enteredCtas[i] == "}"|enteredCtas[i] == ")"){
+            tags--;
+      }
+   }
+
+
+   while(matched = ctaPattern.exec(cta)){
+       matchingArray.push(matched);
+   }
+   console.log(matchingArray);
+   if(tags != 0){
+      document.getElementById("reqCloseTag").hidden = false;
+   }
+   else if (matchingArray.length < 2){
       document.getElementById("malFormed").hidden = false;
    }
    else if(refinesMatch === null){
       document.getElementById("reqRefine").hidden = false;
    }
-   else if(patternMatch.length>=1){
-   return true;
+   else if(matchingArray.length>1){
+      return true;
    }
 }
 
@@ -23,6 +44,7 @@ function enterText(){
    var text = editor.getValue();
    var script = document.getElementById("script");
    script.value = text;
+   document.getElementById("reqCloseTag").hidden = true;
    document.getElementById("malFormed").hidden = true;
    document.getElementById("reqRefine").hidden = true;
 
@@ -81,4 +103,9 @@ function download(filename, text) {
    document.body.removeChild(element);
 }
 
+//Function to share script - gets editor places in secret form and submits to server
 
+function share(){
+   document.getElementById("script2").value = editor.getValue();
+   document.getElementById("hiddenForm2").submit();
+ }

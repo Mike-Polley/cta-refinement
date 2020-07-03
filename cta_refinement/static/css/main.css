@@ -34,7 +34,8 @@ body {
 }
 
 
-.topnav h2 {
+.topnav h2,
+.topnav p {
   float: left;
   display: block;
   font-size: 16px;
