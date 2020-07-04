@@ -3,6 +3,8 @@
     To run at command line enter: pytest TestWeb.py
 """
 import pytest
+import sys
+sys.path.append("/var/www/cta_refinement/cta_refinement/dbmModules/")
 from CtaWebFunctions import webScriptRefinementChecker
 from CtaParser import loadGrammarFile
 
@@ -10,7 +12,7 @@ from CtaParser import loadGrammarFile
 def testGrammarFile():
     """Test successful load of grammar file
     """
-    g = loadGrammarFile("grammar")
+    g = loadGrammarFile("/var/www/cta_refinement/cta_refinement/dbmModules/grammar")
     assert type(g).__name__ is "Grammar"
 
 def testInputFailure():

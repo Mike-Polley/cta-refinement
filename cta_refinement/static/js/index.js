@@ -10,22 +10,11 @@ function validateCta(cta){
    let matched;
    var refinesMatch = ctaRefines.exec(cta);
 
-   var tags = 0;
-   for(i=0; i < enteredCtas.length; i++){
-      if (enteredCtas[i] == "{"|enteredCtas[i] == "("){
-            tags++;
-      }
-      else if (enteredCtas[i] == "}"|enteredCtas[i] == ")"){
-            tags--;
-      }
-   }
-
-
    while(matched = ctaPattern.exec(cta)){
        matchingArray.push(matched);
    }
-   console.log(matchingArray);
-   if(tags != 0){
+ 
+   if(checkTags(enteredCtas) != 0){
       document.getElementById("reqCloseTag").hidden = false;
    }
    else if (matchingArray.length < 2){
@@ -39,6 +28,22 @@ function validateCta(cta){
    }
 }
 
+//Check opening and closing tags {()}
+
+function checkTags(enteredCtas){
+var tags = 0;
+for(i=0; i < enteredCtas.length; i++){
+   if (enteredCtas[i] == "{"|enteredCtas[i] == "("){
+         tags++;
+   }
+   else if (enteredCtas[i] == "}"|enteredCtas[i] == ")"){
+         tags--;
+   }
+}
+return tags;
+}
+
+//Grab Ctas entered and check validity if valid submit to server
 
 function enterText(){
    var text = editor.getValue();

@@ -25,6 +25,7 @@ def output():
     tf = tempfile.NamedTemporaryFile().name
     scriptResponse = webScriptRefinementChecker(str(a),tf)
     tf = "files/imagetemp" + tf + ".png"
+    print(scriptResponse)
     return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
 
 @app.route("/grammar")

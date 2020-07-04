@@ -244,7 +244,7 @@ actions = {
 }
 
 def loadGrammarFile(file):
-	g = Grammar.from_file("grammar")
+	g = Grammar.from_file(file)
 	return g
 
 def refinementChecker(scriptFile):
