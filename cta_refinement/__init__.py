@@ -6,7 +6,6 @@ from settings import DBMDIRECTORY, JSONDIRECTORY
 sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
 import random
-from flask_sqlalchemy import SQLAlchemy
 import json
 
 
