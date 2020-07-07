@@ -15,9 +15,10 @@ def home():
 @app.route("/output",methods=["POST","GET"])
 def output():
     a = request.args.get('a', 0, type=str)
+    format = str(request.args.get('b', 0, type=str))
     tf = tempfile.NamedTemporaryFile().name
-    scriptResponse = webScriptRefinementChecker(str(a),tf)
-    tf = "files/imagetemp" + tf + ".png"
+    scriptResponse = webScriptRefinementChecker(str(a),tf,format)
+    tf = "files/imagetemp" + tf + "." + format
     return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
 
 @app.route("/grammar")

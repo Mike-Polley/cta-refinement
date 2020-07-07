@@ -23,22 +23,29 @@ q3 MU?menu q4;
 User1 refines? User;
 
 </div>
-   <input type="button" value="Submit" onclick="enterText();">
-    <input id="scriptFile" type="file">
+<label for="imageTypes">Select image output format:</label>
+<input list="imageTypes" name="imageType" id="imageType">
+   <datalist id="imageTypes">
+      <option value="jpeg">
+      <option value="png">
+      <option value="pdf">
+   </datalist>
+<br>   
+<label for ="scriptFile"> Upload script: </label>
+<input id="scriptFile" type="file">
+<br>
+<input type="button" value="Submit" onclick="enterText();">
 <div id="file-content" style="display: none;"></div>
    <div>
-    <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
-    <br>
-    <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
+      <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
+      <br>
+      <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
    </div>
 <div>
     <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
 </div>
 </div>
-
-         
-         
-         
+       
 <form id="hiddenForm" hidden method="POST">
   <input id="script" name="script" type="text" >
   <input type="button" id="scriptBtn">
@@ -48,7 +55,6 @@ User1 refines? User;
 <script>
 
   //Setup editor window
-
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/chrome");
   editor.session.setMode("ace/mode/cta");
@@ -57,18 +63,19 @@ User1 refines? User;
   document.getElementById('editor').style.fontSize='20px';
   document.getElementById('editor').style.width = '100%';
 
-  //Ajax call to server to retrieve refinement and image response
-  $(function() {
-   $('#hiddenForm').bind('click',function() {
-     $.getJSON($SCRIPT_ROOT + 'output', {
-       a: $('input[name="script"]').val()
-     }, function(data) {
-       $("#outputText").html(data.result);
-       $("#resultImg").attr('src',data.image);
-     });
-     return false;
+//Ajax call to server to retrieve refinement and image response
+   $(function() {
+      $('#hiddenForm').bind('click',function() {
+         $.getJSON($SCRIPT_ROOT + 'output', {
+            a: $('input[name="script"]').val(),
+            b: $('input[name="imageType"]').val()
+         }, function(data) {
+               $("#outputText").html(data.result);
+               $("#resultImg").attr('src',data.image);
+            });
+         return false;
+      });
    });
- });
          
 </script>
 {% endblock %}
