@@ -2,3 +2,6 @@
 *.pdf
 *.wsgi
 *.pgt
+*.jpeg
+*.jpg
+*.png
