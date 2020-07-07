@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../static/js/base.js"></script>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <title>{% block title %}{% endblock %}</title>
+    <style type="text/css" media="screen">
+      #editor { 
+          position: relative;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
+  </style>
+  {% endblock %}
+</head>
+<body>
+  <div class="fixed">
+    <div class="topnav">
+      <h2>CTA Refiner</h2>
+      <a href="{{url_for('home')}}">Home</a>
+      <a href="{{url_for('article')}}">Get Article</a>
+      <a href="{{url_for('grammar')}}">Grammar</a>
+      <div class="dropdown">
+        <button class="dropbtn">Sample Scripts
+            </button>
+        <div class="dropdown-content">
+          <a id="atm-link">ATM</a>
+          <a id="fisher-link">Fisher Mutual Exclusion</a>
+          <a id="ford-link">Ford Credit Portal</a>
+          <a id="ooi-link">OOI Word Counting</a>
+          <a id="sched-link">Scheduled Task Protocol</a>
+          <a id="smtp-link">SMTP Client</a>
+        </div>
+      </div>
+      <a onclick=share();>Share</a>
+      <p id="shareURL">{% if id %} Your url is: /share/{{id}} {% endif %}</p>
+    </div>
+  </div>
+{% block content %}{% endblock %}
+
+</body>
+</html>

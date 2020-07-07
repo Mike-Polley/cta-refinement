@@ -8,4 +8,4 @@ else:
 	if len(sys.argv) > 2:
 		print "Ignoring exceeding arguments."
 	scriptFile = sys.argv[1]
-	refinementChecker(scriptFile)
+	print refinementChecker(scriptFile)

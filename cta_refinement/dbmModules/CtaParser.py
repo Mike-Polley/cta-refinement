@@ -1,19 +1,8 @@
 from parglare import Parser, Grammar
-from python_dbm import Context
+from udbm import Context
 from DBMCta import *
 from graphviz import Digraph
 import sys,time
-
-#from Cta import DBMTransition
-
-#grammar = r"""
-#Guard : Clock '<=' Nat
-#| Clock '<' Nat
-#| Guard '&' Guard {left}
-#| '(' Guard ')';
-#Clock : /[a-zA-Z]([a-zA-Z0-9_]*)?/;
-#Nat : /\d+/;
-#"""
 
 class GuardTree:
 
@@ -145,8 +134,8 @@ class Cta:
 			ret = ret | set([e.source,e.destination])
 		return ret
 
-	def toDot(self):
-		dot = Digraph()
+	def toDot(self,format):
+		dot = Digraph(format=format)
 		for q in self.getStates():
 			dot.node(q,q)
 		dot.attr('node', shape='none')
@@ -191,7 +180,7 @@ def execute(script):
 				cta = env[c.ctaName]
 			except KeyError:
 				print "Cta " + c.ctaName + " undeclared."
-			cta.toDot().render('output/' + c.ctaName, view=True, cleanup=True)
+			cta.toDot('pdf').render('output/' + c.ctaName, view=True, cleanup=True)
 		else:
 			raise Exception("Invalid command: " + c.instrId)
 
@@ -208,52 +197,12 @@ def query(env, cta1name, cta2name):
 	c = genContext(cta1.getClocks() | cta2.getClocks())
 	dbmCta1 = cta1.toDBMCta(c)
 	dbmCta2 = cta2.toDBMCta(c)
-#	print "Send and receive restriction refinement check: %r." % srRefines(dbmCta1,dbmCta2)
 	print ("Send restriction and receive procrastination refinement check: %r."  
 		% srpRefines(dbmCta1,dbmCta2))
-#	print "Asymmetric refinement check: %r." % aRefines(dbmCta1,dbmCta2)
 	print "LLESP check: %r." % llesp(dbmCta1,dbmCta2)
 	end_time = time.time()
 	print "Query time: %s seconds." % (end_time - start_time)
 
-#actions = {
-#	"Command": [lambda _, nodes: [Declaration(nodes[1], Cta(nodes[4], nodes[6]))],
-#		    lambda _, nodes: [Declaration(nodes[1], Cta(nodes[4], []))],
-#		    lambda _, nodes: [Query(nodes[0],nodes[2])],
-#		    lambda _, nodes: [Show(nodes[2])],
-#		    lambda _, nodes: nodes[0] + nodes[2]],
-#	"Guard": [lambda _, nodes: GuardTree('True',[]),
-#		  lambda _, nodes: GuardTree('False',[]),
-#		  lambda _, nodes: GuardTree('Leq',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('Lt',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('Geq',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('Gt',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('Eq',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('And',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: GuardTree('Or',[nodes[0],nodes[2]]),
-#		  lambda _, nodes: nodes[1]],
-#	"Clock": lambda _, nodes: nodes[0],
-#	"String": lambda _, value: value.encode('ascii','ignore'),
-#	"Nat": lambda _, value: int(value),
-#	"Name": lambda _, value: value.encode('ascii','ignore'),
-#	"Initial": lambda _, nodes: nodes[1],
-#	"Edges": [lambda _, nodes: [nodes[0]],
-#	          lambda _, nodes: [nodes[0]] + nodes[2]],
-#	"Edge": [lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],nodes[5],nodes[8],nodes[11]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],nodes[5],[],nodes[10]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],nodes[5],[],nodes[7]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],GuardTree('True',[]),nodes[6],nodes[9]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],GuardTree('True',[]),[],nodes[8]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],GuardTree('True',[]),[],nodes[6]),
-#		 lambda _, nodes: Edge(nodes[0],nodes[1],nodes[2],nodes[3],GuardTree('True',[]),[],nodes[4])],
-#	"State": lambda _, nodes: nodes[0],
-#	"Channel": lambda _, nodes: nodes[0],
-#	"Act": lambda _, nodes: nodes[0],
-#	"IO": [lambda _, value: True,
-#	       lambda _, value: False],
-#	"Clocks": [lambda _, nodes: [nodes[0]],
-#	          lambda _, nodes: [nodes[0]] + nodes[2]]
-#}
 
 actions = {
 	"Command": [lambda _, nodes: [Declaration(nodes[1], Cta(nodes[4], nodes[5]))],
@@ -294,6 +243,10 @@ actions = {
 	          lambda _, nodes: [nodes[0]] + nodes[2]]
 }
 
+def loadGrammarFile(file):
+	g = Grammar.from_file(file)
+	return g
+
 def refinementChecker(scriptFile):
 	try:
 		g = Grammar.from_file("grammar")
@@ -321,3 +274,4 @@ def refinementChecker(scriptFile):
 		sys.exit()
 	print "Script execution: Done."
 	print "Terminating."
+

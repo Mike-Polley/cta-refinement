@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{pageName}}{% endblock %}
+{% block content %}
+<div class="main">
+<br>
+<div>{%for i in range(0, len)%}
+    {{src[i]}}<br>
+    {%endfor%}</div>
+</div>
+{% endblock %}

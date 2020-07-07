@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{pageName}}{% endblock %}
+{% block content %}
+<div class="main">
+  {{id}}
+  <p id="malFormed" class="warning" hidden=true>CTA is not formed properly please alter and try again.</p>
+  <p id="reqRefine" class="warning" hidden=true>CTA Refiner expects refines? argument.</p>
+<div id="editor" rows="20" cols="45" style="height: 500px; width: 1000px">{{session}} 
+</div>
+   <input type="button" value="Submit" onclick="enterText();">
+    <input id="scriptFile" type="file">
+<div id="file-content" style="display: none;"></div>
+   <div>
+    <p><textarea readonly id="outputText" rows="20" cols="45" width="100%"></textarea></p>
+    <br>
+    <input type="button" id="dwn-btn" value="Download" onclick="download('results.txt',document.getElementById('outputText').value);"/>
+   </div>
+<div>
+    <img id="resultImg" src="{{url_for('static', filename=image)}}" alt="">
+</div>
+</div>
+
+         
+         
+         
+<form id="hiddenForm" hidden method="POST">
+  <input id="script" name="script" type="text" >
+  <input type="button" id="scriptBtn">
+</form>
+<form name="hiddenForm2" method="POST" action="{{url_for('share')}}">
+  <input type="text" hidden name="script2">
+  <input type="button" value="Share" onclick="share();"><p>{{session.id}}</p>
+</form>
+<script src="../static/js/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="../static/js/index.js"></script>
+<script>
+
+  //Setup editor window
+
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/chrome");
+  editor.session.setMode("ace/mode/cta");
+  editor.setShowPrintMargin(true);
+  editor.$highlightBrackets(true);
+  document.getElementById('editor').style.fontSize='20px';
+  document.getElementById('editor').style.width = '100%';
+
+  //Ajax call to server to retrieve refinement and image response
+  $(function() {
+   $('#hiddenForm').bind('click',function() {
+     $.getJSON($SCRIPT_ROOT + 'output', {
+       a: $('input[name="script"]').val()
+     }, function(data) {
+       $("#outputText").html(data.result);
+       $("#resultImg").attr('src',data.image);
+     });
+     return false;
+   });
+ });
+
+ function share(){
+   document.getElementsByName("scipt2").value = editor.getValue();
+   document.getElementsByName("hiddenForm2").submit();
+ }
+
+        
+</script>
+{% endblock %}
+
+
+
+
+

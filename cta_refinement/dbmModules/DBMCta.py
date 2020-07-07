@@ -1,4 +1,4 @@
-from python_dbm import Context
+from udbm import Context
 
 class DBMTransition:
 	
@@ -54,13 +54,9 @@ class DBMCta:
 			
 	def addState(self,state):
 		self.states.add(state)
-#		if state not in self.states:
-#			self.states.append(state)
 
 	def addTransition(self,t):
 		self.transitions.add(t)
-#		if t not in self.transitions:
-#			self.transitions.append(t)
 
 	def pre(self,q):
 		assert q in self.states
@@ -112,18 +108,10 @@ def refines(ctaA,ctaB,f):
 		if not search(lambda x : f(t,x),ctaB.transitions):
 			print "No matching edge for " + str(t) + " of left machine" 
 			return False
-#		l = filter(lambda x : f(t,x), ctaB.transitions)
-#		if l == []: 
-#			print "No matching edge for " + str(t) + " of left machine" 
-#			return False
 	for t in ctaB.transitions:
 		if not search(lambda x : f(x,t),ctaA.transitions):
 			print "No matching edge for " + str(t) + " of right machine" 
 			return False
-#		l = filter(lambda x : f(x,t), ctaA.transitions)
-#		if l == []: 
-#			print "No matching edge for " + str(t) + " of right machine" 
-#			return False
 	return True 
 
 def search(f,l):

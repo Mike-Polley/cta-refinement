@@ -32,17 +32,7 @@ else:
 			for i in xrange(n - 1):
 				file.write("q" + str(i) + " pq!a(" + gs + "," + rst + ") q" + str(i + 1) + ";\n") 
 				file.write("q" + str(i) + " pq?b(" + gr + "," + rst + ") q" + str(i + 1) + ";\n")
-			#file.write("q" + str(n - 2) + " pq!a(" + gs + "," + rst + ") q" + str(n - 1) + ";\n") 
-			#file.write("q" + str(n - 2) + " pq?b(" + gr + "," + rst + ") q" + str(n - 1) + "\n")
 			file.write("};\n\n")
-			#file.write("Cta B = {\n") 
-			#file.write("Init q0;\n")
-			#for i in xrange(n - 1):
-			#	file.write("q" + str(i) + " pq!a(" + gs + "," + rst + ") q" + str(i + 1) + ";\n") 
-			#	file.write("q" + str(i) + " pq?b(" + gr + "," + rst + ") q" + str(i + 1) + ";\n")
-			#file.write("q" + str(n - 1) + " pq!a(" + gs + "," + rst + ") q" + str(n) + ";\n") 
-			#file.write("q" + str(n - 1) + " pq?b(" + gr + "," + rst + ") q" + str(n) + "\n")
-			#file.write("};\n\n")
 			file.write("A refines? A;") 
 			file.close() 
 			print "Done."
