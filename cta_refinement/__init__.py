@@ -83,7 +83,7 @@ def share():
         if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
             start.append(payload)
             with open(JSONDIRECTORY+'sessions.json','w') as outfile:
-                outfile.write(json.dumps(a))
+                outfile.write(json.dumps(start))
         else:
             with open(JSONDIRECTORY+'sessions.json') as outfile:
                 data = json.load(outfile)
