@@ -57,8 +57,6 @@ def webllesp(ctaA,ctaB):
 			return "Refinement is not llesp at state " + q + ".\n" + "False.\n"
 	return "True."
 
-
-
 def webQuery(env, cta1name, cta2name):
         returnStringList = []
         returnString = ""
@@ -81,7 +79,7 @@ def webQuery(env, cta1name, cta2name):
 	returnStringList.append("Query time: %s seconds. \n" % (end_time - start_time))
         return returnString.join(returnStringList)
 
-def webExecute(script,tf):
+def webExecute(script,tf,format):
         returnStringList = []
         returnString = ""
     	env = dict()
@@ -99,7 +97,7 @@ def webExecute(script,tf):
 				cta = env[c.ctaName]
 			except KeyError:
 				returnStringList.append("Cta " + c.ctaName + " undeclared.\n")
-			cta.toDot('png').render("/var/www/cta_refinement/cta_refinement/static/files/imagetemp/"+tf, view=False, cleanup=True)
+			cta.toDot(format).render("/var/www/cta_refinement/cta_refinement/static/files/imagetemp/"+tf, view=False, cleanup=True)
 		else:
 			raise Exception("Invalid command: " + c.instrId)
         return returnString.join(returnStringList)
@@ -109,7 +107,7 @@ if "dbmModules" not in os.getcwd():
 else:
 	dir = os.getcwd()
 
-def webScriptRefinementChecker(script,tf):
+def webScriptRefinementChecker(script,tf,format):
     try:
         g = Grammar.from_file(os.path.join("/var/www/cta_refinement/cta_refinement/dbmModules","grammar"))
         parser = Parser(g, actions=actions)
@@ -123,7 +121,7 @@ def webScriptRefinementChecker(script,tf):
         return "Parser generation: Done. Parse input: Failed." + str(e) + ". Terminating.\n" 
         sys.exit()
     try:
-        response = webExecute(script,tf)
+        response = webExecute(script,tf,format)
     except Exception as e:
         return str(e) + "Script execution: Failed. Terminating.\n"
         sys.exit()
