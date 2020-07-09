@@ -31,10 +31,10 @@ def webRefines(ctaA,ctaB,f):
 		return False
 	for t in ctaA.transitions:
 		if not search(lambda x : f(t,x),ctaB.transitions):
-			return "No matching edge for " + str(t) + " of left machine.\n" + "False.\n"
+			return "No matching edge for " + str(t) + " of left machine.\n " + "False.\n"
 	for t in ctaB.transitions:
 		if not search(lambda x : f(x,t),ctaA.transitions):
-			return "No matching edge for " + str(t) + " of right machine.\n" + "False.\n"
+			return "No matching edge for " + str(t) + " of right machine.\n " + "False.\n"
 	return "True"
 
 def webSrRefines(ctaA,ctaB):
