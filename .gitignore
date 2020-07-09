@@ -2,3 +2,9 @@
 *.pdf
 *.wsgi
 *.pgt
+*.png
+*.save
+*.swp
+__pycache__
+.pytest_cache
+
