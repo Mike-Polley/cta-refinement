@@ -7,8 +7,7 @@ sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
 import random
 import json
-
-
+from time import sleep
 
 app = Flask(__name__)
 
@@ -21,10 +20,10 @@ def home():
 @app.route("/output",methods=["POST","GET"])
 def output():
     a = request.args.get('a', 0, type=str)
+    format = str(request.args.get('b', 0, type=str))
     tf = tempfile.NamedTemporaryFile().name
-    scriptResponse = webScriptRefinementChecker(str(a),tf)
-    tf = "files/imagetemp" + tf + ".png"
-    print(scriptResponse)
+    scriptResponse = webScriptRefinementChecker(str(a),tf,format)
+    tf = "files/imagetemp" + tf + "." + format
     return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
 
 @app.route("/grammar")
@@ -76,14 +75,13 @@ def article():
 @app.route("/share",methods=['POST', 'GET'])
 def share():
     if request.method == 'POST':
-        hash = random.getrandbits(32)
-        genId = hash
+        Id = createId()
         genSession = Markup(request.form['script2'])
  
-        a = []
-        payload = {'id': genId, 'session': genSession}
+        start = []
+        payload = {'id': Id, 'session': genSession}
         if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
-            a.append(payload)
+            start.append(payload)
             with open(JSONDIRECTORY+'sessions.json','w') as outfile:
                 outfile.write(json.dumps(a))
         else:
@@ -93,7 +91,7 @@ def share():
             data.append(payload)
             with open(JSONDIRECTORY+'sessions.json','w') as outfile:
                 outfile.write(json.dumps(data))
-        return redirect("/share/"+str(genId))
+        return redirect("/share/"+str(Id))
     else:
         return render_template("index.html", pageName="Home")
 
@@ -104,8 +102,20 @@ def getShare(id):
     session = dict.get('session')
     return render_template("index.html", pageName="home", session=session, id=id)
 
-
-
+""" Check whether id already exists in file. If file doesn't exist it doesn't.
+    else search the file and check call yourself again if id found
+"""
+def createId():
+    id = random.getrandbits(32)
+    if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
+        return id
+    else:
+        data = json.loads(open(JSONDIRECTORY+'sessions.json','r').read())
+        for item in data:
+            if item["id"] == id:
+                return createId()
+            else:
+                return id
 
 
 if __name__ == "__main__":
