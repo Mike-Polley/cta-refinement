@@ -1,0 +1,357 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API for CTA Refinement",
+    "version" : "1.0.0",
+    "title" : "CTA Refinement API",
+    "contact" : {
+      "email" : "mgp27@kent.ac.uk"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags" : [ {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "paths" : {
+    "/api/cta" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Searches CTAs in your session.",
+        "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
+        "operationId" : "searchCTA",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "skip",
+          "in" : "query",
+          "description" : "number of records to skip for pagination",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int32"
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "type" : "integer",
+          "maximum" : 50,
+          "minimum" : 0,
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CTA"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "developers" ],
+        "summary" : "Adds a CTA to the session",
+        "description" : "Adds a CTA to the session",
+        "operationId" : "addCta",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "CTA",
+          "description" : "CTA to add",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CTA"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "cta created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "404" : {
+            "description" : "an existing cta with same name already exists"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "developers" ],
+        "summary" : "Updates a CTA in the session",
+        "description" : "updates a CTA in the session",
+        "operationId" : "updateCta",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "CTA",
+          "description" : "CTA to update",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CTA"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "cta updated"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "404" : {
+            "description" : "can not find cta with specified name"
+          }
+        }
+      }
+    },
+    "/api/cta/{ctaName}" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Searches CTAs in your session.",
+        "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
+        "operationId" : "searchSingleCTA",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctaName",
+          "in" : "path",
+          "description" : "pass an optional search string for looking up a cta",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/CTA"
+              }
+            }
+          },
+          "404" : {
+            "description" : "CTA with specified name cannot be found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "developers" ],
+        "summary" : "deletes a CTA from session",
+        "description" : "By passing in the CTA name you are able to delete a specific CTA\nfrom the session\n",
+        "operationId" : "deleteCTA",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctaName",
+          "in" : "path",
+          "description" : "pass a search string for deleting a cta",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "CTA successfully deleted"
+          },
+          "404" : {
+            "description" : "CTA not found"
+          }
+        }
+      }
+    },
+    "/api/{ctaName1}/refines/{ctaName2}" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Gets refinements between two CTAs.",
+        "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
+        "operationId" : "refineCTAS",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctaName1",
+          "in" : "path",
+          "description" : "gets refinements between two ctas",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "ctaName2",
+          "in" : "path",
+          "description" : "gets refinements between two ctas",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "$ref" : "#/definitions/refinement"
+            }
+          },
+          "404" : {
+            "description" : "CTAs with specified names not found"
+          }
+        }
+      }
+    },
+    "/api/grammar" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "Gets CTA grammar rules.",
+        "description" : "This will return the grammar rules for specifying CTAs\n",
+        "operationId" : "getGrammar",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "grammar rules successfully retrieved",
+            "schema" : {
+              "type" : "object"
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
+    "/api/sample-scripts" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "returns a list of available sample scripts",
+        "description" : "Returns a list of available sample scripts which can\nbe passed as a parameter to retrieve specific sample\n",
+        "operationId" : "getSamples",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successfully returned array"
+          },
+          "400" : {
+            "description" : "operation invalid"
+          }
+        }
+      }
+    },
+    "/api/samples-scripts/{sample-name}" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "returns a specified sample script",
+        "description" : "By passing in the specified sample script name\nyou are able to get a sample script\n",
+        "operationId" : "getSample",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "sample-name",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "sample script successfully retrieved",
+            "schema" : {
+              "type" : "object"
+            }
+          },
+          "404" : {
+            "description" : "sample script not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "CTA" : {
+      "type" : "object",
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "ATM"
+        },
+        "CTA" : {
+          "type" : "string",
+          "format" : "domain-specific",
+          "example" : "Cta ATM = { Init q0; q0 UM!card q1; q1 MU?pinrequest({x}) q2; q2 UM!pin(x <= 30) q3; q3 MU?menu q4; };"
+        }
+      }
+    },
+    "refinement" : {
+      "type" : "object",
+      "properties" : {
+        "refinement" : {
+          "type" : "string",
+          "example" : "User 1 refines User"
+        }
+      }
+    },
+    "grammar" : {
+      "type" : "object",
+      "properties" : {
+        "Command" : {
+          "type" : "string",
+          "example" : "CTA Name ="
+        },
+        "Guard" : {
+          "type" : "string",
+          "example" : "true"
+        },
+        "Clock" : {
+          "type" : "string",
+          "example" : "m220"
+        },
+        "Initial" : {
+          "type" : "string",
+          "example" : "init"
+        },
+        "Edges" : {
+          "type" : "string",
+          "example" : "Edges"
+        },
+        "Edge" : {
+          "type" : "string",
+          "example" : ""
+        },
+        "State" : {
+          "type" : "string",
+          "example" : "mail"
+        },
+        "Channel" : {
+          "type" : "string",
+          "example" : "data"
+        },
+        "Act" : {
+          "type" : "string",
+          "example" : "quit"
+        },
+        "IO" : {
+          "type" : "string",
+          "example" : "?"
+        }
+      }
+    },
+    "sample-script" : {
+      "type" : "object",
+      "properties" : {
+        "Name" : {
+          "type" : "string",
+          "example" : "ATM"
+        },
+        "Script" : {
+          "type" : "string",
+          "example" : "Cta User = { Init q0; q0 UM!card q1; q1 MU?pinrequest({x}) q2; q2 UM!pin(x <= 30) q3; q3 MU?menu q4; };\nCta User1 = { Init q0; q0 UM!card(x == 0) q1; q1 MU?pinrequest({x}) q2; q2 UM!pin(x == 0) q3; q3 MU?menu q4; }; \nUser1 refines? User;"
+        }
+      }
+    }
+  }
+}
