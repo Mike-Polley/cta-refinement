@@ -1,4 +1,6 @@
 from flask import jsonify, abort, request, Blueprint, session, make_response
+from settings import EXAMPLESDIRECTORY
+import os
 
 REFINER_API = Blueprint('api', __name__)
 
@@ -33,7 +35,7 @@ def get_grammar():  # noqa: E501
     """
     return 'do some magic!'
 
-@REFINER_API.route('/api/sample-scripts/<string:sample_name>', methods=['GET'])
+@REFINER_API.route('/api/sample-scripts/<sample_name>', methods=['GET'])
 def get_sample(sample_name):  # noqa: E501
     """returns a specified sample script
 
@@ -44,7 +46,9 @@ def get_sample(sample_name):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    f = open(EXAMPLESDIRECTORY+sample_name,"r")
+    example = f.readlines()
+    return jsonify(name=sample_name,sample_script=example)
 
 @REFINER_API.route('/api/sample-scripts', methods=['GET'])
 def get_samples():  # noqa: E501
@@ -55,7 +59,10 @@ def get_samples():  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    examples = []
+    for files in os.listdir(EXAMPLESDIRECTORY):
+        examples.append(files)
+    return str(examples)
 
 @REFINER_API.route('/api/cta/<string:ctaName1>/refines/<string:ctaName2>', methods=['GET'])
 def refine_ctas(ctaName1,ctaName2):  # noqa: E501
