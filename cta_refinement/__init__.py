@@ -134,9 +134,11 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 ### end swagger specific ###
 
-
+### create swagger blueprint ###
 app.register_blueprint(get_blueprint())
 
+
+### add error handlers for api ###
 @app.errorhandler(400)
 def handle_400_error(_error):
     """Return a http 400 error to client"""
