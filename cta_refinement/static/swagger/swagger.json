@@ -171,7 +171,7 @@
         }
       }
     },
-    "/api/{ctaName1}/refines/{ctaName2}" : {
+    "/api/cta/{ctaName1}/refines/{ctaName2}" : {
       "get" : {
         "tags" : [ "developers" ],
         "summary" : "Gets refinements between two CTAs.",

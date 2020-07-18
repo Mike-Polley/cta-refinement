@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file, Markup,jsonify,make_response
+from flask import Flask, render_template, request, url_for, redirect, send_file, Markup, jsonify, make_response, session
 import sys
 import os
 import tempfile
@@ -23,6 +23,7 @@ def home():
 @app.route("/output",methods=["POST","GET"])
 def output():
     a = request.args.get('a', 0, type=str)
+    session.update({'currentScript' : str(a)})
     format = str(request.args.get('b', 0, type=str))
     tf = tempfile.NamedTemporaryFile().name
     scriptResponse = webScriptRefinementChecker(str(a),tf,format)
@@ -80,7 +81,7 @@ def share():
     if request.method == 'POST':
         Id = createId()
         genSession = Markup(request.form['script2'])
- 
+
         start = []
         payload = {'id': Id, 'session': genSession}
         if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
@@ -119,7 +120,6 @@ def createId():
                 return createId()
             else:
                 return id
-
 
 ### swagger specific ###
 SWAGGER_URL = '/swagger'
