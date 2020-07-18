@@ -1,7 +1,7 @@
 from flask import jsonify, abort, request, Blueprint, session, make_response
 
-REFINER_API = Blueprint('api', __name__)
 
+REFINER_API = Blueprint('api', __name__)
 
 def get_blueprint():
     """Return the blueprint for the main app module"""
@@ -18,11 +18,17 @@ def add_cta(CTA=None):  # noqa: E501
 
     :rtype: None
     """
+    if request.method == 'GET':
+        return session[ctaList][CTA]
+        return 'get'
+    if request.method == 'POST':
+        return 'post'
+    if request.method == 'PUT':
+        return 'put'
+    if request.method == 'POST':
+        return 'post'
 
-    return 'do some magic!'
-
-
-@REFINER_API.route('/api/gramar', methods=['GET'])
+@REFINER_API.route('/api/grammar', methods=['GET'])
 def get_grammar():  # noqa: E501
     """Gets CTA grammar rules.
 
@@ -83,6 +89,55 @@ def search_cta(skip=None, limit=None):  # noqa: E501
 
     :rtype: List[CTA]
     """
-    return 'do some magic!'
+
+    script = session.get('currentScript')
+    rf = reformatScript(script)
+
+    parseCTAs(rf)
+    return jsonify(session['ctaList'].items())
+
+def parseCTAs(script):
+    ctaName = ""
+    while script.find("Cta") != -1:
+        spScript = script.split()
+        index = spScript.index("Cta")
+        ctaName = spScript[index + 1]
+        index = index + 3
+        ctaDefinition = ""
+
+        while not endOfCTA(spScript[index],spScript[index + 1]):
+            ctaDefinition = ctaDefinition + spScript[index] + " "
+            index = index + 1
+        if session.has_key("ctaList"):
+            session["ctaList"].update({ctaName : ctaDefinition + "}"})
+        else:
+            session["ctaList"] = {ctaName : ctaDefinition + "}"}
+        
+        start = script.find("Cta") + 3
+        script = script[start:]
+
+
+def endOfCTA(str,str2):
+    return str.find("};") != -1 or str[-1].find("}") != -1 and str2[0].find(";") != -1
+
+def reformatScript(script):
+    spScript = script.split()
+    rfScript = ""
+    newStr = ""
+    for str in spScript:
+        if str.find(";") != -1:
+            for i in str:
+                if i == ";":
+                    newStr = newStr + " ; "
+                else:
+                    newStr = newStr + i
+            rfScript = rfScript + newStr + " "        
+            newStr = "" 
+        else:
+            rfScript = rfScript + str + " "
+    return rfScript
+
+
+
 
 
