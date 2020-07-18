@@ -24,8 +24,10 @@ def add_cta(ctaName):  # noqa: E501
     :rtype: None
     """
     if request.method == 'GET':
-        return session["ctaList"][ctaName]
-        return 'get'
+        try:
+            return session["ctaList"][ctaName]
+        except:
+            return handle_404_error(404)
     if request.method == 'POST':
         return 'post'
     if request.method == 'PUT':
