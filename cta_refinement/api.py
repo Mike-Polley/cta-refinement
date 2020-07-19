@@ -3,7 +3,6 @@ from settings import EXAMPLESDIRECTORY, DBMDIRECTORY
 import os, sys
 sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
-import json
 
 
 REFINER_API = Blueprint('api', __name__)
@@ -45,7 +44,7 @@ def get_grammar():  # noqa: E501
     """
     try:
         f = open(DBMDIRECTORY+"grammar","r")
-        """grammar = f.readlines()"""
+        grammar = f.readlines()
         return jsonify(grammar_rules=grammar)
     except:
         return handle_404_error(404)
