@@ -1,4 +1,4 @@
-from flask import jsonify, abort, request, Blueprint, session, make_response
+from flask import jsonify, abort, request, Blueprint, session, make_response,Response
 from settings import EXAMPLESDIRECTORY, DBMDIRECTORY
 import os, sys
 sys.path.append(DBMDIRECTORY)
@@ -31,8 +31,12 @@ def add_cta(ctaName):  # noqa: E501
         return 'post'
     if request.method == 'PUT':
         return 'put'
-    if request.method == 'POST':
-        return 'post'
+    if request.method == 'DELETE':
+        try:
+            session["ctaList"].pop(ctaName)
+            return "Successfully deleted", 200
+        except:
+            return handle_404_error(404)
 
 @REFINER_API.route('/api/grammar', methods=['GET'])
 def get_grammar():  # noqa: E501
@@ -178,7 +182,7 @@ def handle_400_error(_error):
 @REFINER_API.errorhandler(404)
 def handle_404_error(_error):
     """Return a http 404 error to client"""
-    return make_response(jsonify({'error': 'Resource Not found'}), 404)
+    return make_response(jsonify({'error': 'CTA Not found'}), 404)
 
 
 @REFINER_API.errorhandler(500)

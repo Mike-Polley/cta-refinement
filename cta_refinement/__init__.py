@@ -21,13 +21,16 @@ def home():
 @app.route("/share/output",methods=["POST","GET"])
 @app.route("/output",methods=["POST","GET"])
 def output():
-    a = request.args.get('a', 0, type=str)
-    session.update({'currentScript' : str(a)})
-    format = str(request.args.get('b', 0, type=str))
-    tf = tempfile.NamedTemporaryFile().name
-    scriptResponse = webScriptRefinementChecker(str(a),tf,format)
-    tf = "files/imagetemp" + tf + "." + format
-    return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
+    try:
+        a = request.args.get('a', 0, type=str)
+        session.update({'currentScript' : str(a)})
+        format = str(request.args.get('b', 0, type=str))
+        tf = tempfile.NamedTemporaryFile().name
+        scriptResponse = webScriptRefinementChecker(str(a),tf,format)
+        tf = "files/imagetemp" + tf + "." + format
+        return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/grammar")
 def grammar():
@@ -178,7 +181,8 @@ def handle_404_error(_error):
 
 @app.errorhandler(404)
 def handle_404_json_error(_error):
-    return jsonify(src="Oops Resource Not Found. We are working hard to fix this...")
+    return jsonify(src="Oops Resource Not Found. We are working hard to fix this...",
+    result="Oops Resource Not Found. We are working hard to fix this...")
 
 
 @app.errorhandler(500)
