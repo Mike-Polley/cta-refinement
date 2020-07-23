@@ -142,7 +142,7 @@ def parseCTAs(script):
             session["ctaList"].update({ctaName : ctaDefinition + "}"})
         else:
             session["ctaList"] = {ctaName : ctaDefinition + "}"}
-        
+
         start = script.find("Cta") + 3
         script = script[start:]
 
@@ -161,7 +161,7 @@ def reformatScript(script):
                     newStr = newStr + " ; "
                 else:
                     newStr = newStr + i
-            rfScript = rfScript + newStr + " "        
+            rfScript = rfScript + newStr + " "
             newStr = "" 
         else:
             rfScript = rfScript + str + " "
