@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file, Markup,jsonify,make_response
+from flask import Flask, render_template, request, url_for, redirect, send_file, Markup, jsonify, make_response, session
 import sys
 import os
 import tempfile
@@ -7,7 +7,6 @@ sys.path.append(DBMDIRECTORY)
 from CtaWebFunctions import *
 import random
 import json
-from time import sleep
 from flask_swagger_ui import get_swaggerui_blueprint
 from api import get_blueprint
 
@@ -22,65 +21,93 @@ def home():
 @app.route("/share/output",methods=["POST","GET"])
 @app.route("/output",methods=["POST","GET"])
 def output():
-    a = request.args.get('a', 0, type=str)
-    format = str(request.args.get('b', 0, type=str))
-    tf = tempfile.NamedTemporaryFile().name
-    scriptResponse = webScriptRefinementChecker(str(a),tf,format)
-    tf = "files/imagetemp" + tf + "." + format
-    return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
+    try:
+        a = request.args.get('a', 0, type=str)
+        session.update({'currentScript' : str(a)})
+        format = str(request.args.get('b', 0, type=str))
+        tf = tempfile.NamedTemporaryFile().name
+        scriptResponse = webScriptRefinementChecker(str(a),tf,format)
+        tf = "files/imagetemp" + tf + "." + format
+        return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/grammar")
 def grammar():
-    f = open(DBMDIRECTORY+"grammar","r")
-    src = f.readlines()
-    return render_template("grammar.html",src=src,len=len(src),pageName="Grammar Rules")
+    try:
+        file = open(DBMDIRECTORY+"grammar","r")
+        src = file.readlines()
+        return render_template("grammar.html",src=src,len=len(src),pageName="Grammar Rules")
+    except:
+        return handle_404_error(404)
 
 @app.route("/sample-scripts/atm")
 def atm():
-    f = open(DBMDIRECTORY+"Examples/ATM","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/ATM","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/sample-scripts/fisher-mutual-exclusion")
 def fisher():
-    f = open(DBMDIRECTORY+"Examples/FisherMutualExclusion","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/FisherMutualExclusion","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/sample-scripts/ford-credit-portal")
 def ford():
-    f = open(DBMDIRECTORY+"Examples/FordCreditWebPortal","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/FordCreditWebPortal","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/sample-scripts/ooi-word-counting")
 def ooi():
-    f = open(DBMDIRECTORY+"Examples/OOIWordCounting","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/OOIWordCounting","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/sample-scripts/scheduled-task-protocol")
 def task():
-    f = open(DBMDIRECTORY+"Examples/ScheduledTaskProtocol","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/ScheduledTaskProtocol","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/sample-scripts/smtp-client")
 def smtp():
-    f = open(DBMDIRECTORY+"Examples/SMTPClient","r")
-    src = f.read()
-    return jsonify(src=Markup(src))
+    try:
+        file = open(DBMDIRECTORY+"Examples/SMTPClient","r")
+        src = file.read()
+        return jsonify(src=Markup(src))
+    except:
+        return handle_404_json_error(404)
 
 @app.route("/article")
 def article():
-    return send_file("static/files/article.pdf")
+    try:
+        return send_file("static/files/article.pdf")
+    except:
+        return handle_404_error(404)
 
 @app.route("/share",methods=['POST', 'GET'])
 def share():
     if request.method == 'POST':
         Id = createId()
         genSession = Markup(request.form['script2'])
- 
+
         start = []
         payload = {'id': Id, 'session': genSession}
         if not os.path.isfile(JSONDIRECTORY+'sessions.json'):
@@ -100,13 +127,16 @@ def share():
 
 @app.route("/share/<int:id>",methods=['GET'])
 def getShare(id):
-    data = json.loads(open(JSONDIRECTORY+'sessions.json','r').read())
-    dict = next(item for item in data if item["id"] == id)
-    session = dict.get('session')
-    return render_template("index.html", pageName="home", session=session, id=id)
+    try:
+        data = json.loads(open(JSONDIRECTORY+'sessions.json','r').read())
+        dict = next(item for item in data if item["id"] == id)
+        sessions = dict.get('session')
+        return render_template("index.html", pageName="home", sessions=sessions, id=id)
+    except:
+        return handle_404_error(404)
 
 """ Check whether id already exists in file. If file doesn't exist it doesn't.
-    else search the file and check call yourself again if id found
+    Else search the file and check call yourself again if id found
 """
 def createId():
     id = random.getrandbits(32)
@@ -119,7 +149,6 @@ def createId():
                 return createId()
             else:
                 return id
-
 
 ### swagger specific ###
 SWAGGER_URL = '/swagger'
@@ -142,19 +171,24 @@ app.register_blueprint(get_blueprint())
 @app.errorhandler(400)
 def handle_400_error(_error):
     """Return a http 400 error to client"""
-    return make_response(jsonify({'error': 'Misunderstood'}), 400)
+    return render_template('error.html',pageName="Oops",errorNo=400)
 
 
 @app.errorhandler(404)
 def handle_404_error(_error):
     """Return a http 404 error to client"""
-    return make_response(jsonify({'error': 'Not found'}), 404)
+    return render_template('error.html',pageName="Oops",errorNo=404)
+
+@app.errorhandler(404)
+def handle_404_json_error(_error):
+    return jsonify(src="Oops Resource Not Found. We are working hard to fix this...",
+    result="Oops Resource Not Found. We are working hard to fix this...")
 
 
 @app.errorhandler(500)
 def handle_500_error(_error):
     """Return a http 500 error to client"""
-    return make_response(jsonify({'error': 'Server error'}), 500)
+    return render_template('error.html',pageName="Oops",errorNo=500)
 
 
 if __name__ == "__main__":
