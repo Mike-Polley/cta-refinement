@@ -24,19 +24,39 @@ def add_cta(ctaName):  # noqa: E501
     """
     if request.method == 'GET':
         try:
-            return session["ctaList"][ctaName]
+            return session["ctaList"][ctaName], 200
         except:
             return handle_404_error(404)
-    if request.method == 'POST':
-        return 'post'
+
     if request.method == 'PUT':
-        return 'put'
+        try:
+            cta = {ctaName : request.get_json()[ctaName]}
+            session["ctaList"].update(cta) 
+            return "CTA '" + ctaName +  "' successfully updated.", 200
+        except:
+            return handle_404_error(404)
+
     if request.method == 'DELETE':
         try:
             session["ctaList"].pop(ctaName)
             return "Successfully deleted", 200
         except:
             return handle_404_error(404)
+
+@REFINER_API.route('/api/cta', methods=['POST'])
+def addCta():
+        try:
+            req = request.get_json()
+            ctaName = req.keys()[0]
+            cta = {ctaName : req[ctaName]}
+            if session.has_key("ctaList"):
+                session["ctaList"].update(cta)
+            else:
+                session["ctaList"] = cta
+            return jsonify(session["ctaList"]), 200
+        except:
+            return handle_400_error(400)
+
 
 @REFINER_API.route('/api/grammar', methods=['GET'])
 def get_grammar():  # noqa: E501
@@ -49,7 +69,7 @@ def get_grammar():  # noqa: E501
     try:
         f = open(DBMDIRECTORY+"grammar","r")
         grammar = f.readlines()
-        return jsonify(grammar_rules=grammar)
+        return jsonify(grammar_rules=grammar), 200
     except:
         return handle_404_error(404)
 
@@ -67,7 +87,7 @@ def get_sample(sample_name):  # noqa: E501
     try:
         f = open(EXAMPLESDIRECTORY+sample_name,"r")
         example = f.readlines()
-        return jsonify(name=sample_name,sample_script=example)
+        return jsonify(name=sample_name,sample_script=example), 200
     except:
         return handle_404_error(404)
 
@@ -84,7 +104,7 @@ def get_samples():  # noqa: E501
         examples = []
         for files in os.listdir(EXAMPLESDIRECTORY):
             examples.append(files)
-        return str(examples)
+        return str(examples), 200
     except:
         return handle_400_error(400)
 
@@ -106,7 +126,7 @@ def refine_ctas(ctaName1,ctaName2):  # noqa: E501
         script = ("Cta " + ctaName1 + " = " + str(cta1) + "; Cta " + ctaName2 + " = " 
         + str(cta2) + ";" + ctaName1 + " refines? " + ctaName2 + ";")
         scriptResponse = webScriptRefinementChecker(str(script),"none","png")
-        return jsonify(result=scriptResponse)
+        return jsonify(result=scriptResponse), 200
     except:
         return handle_404_error(404)
 
@@ -121,16 +141,26 @@ def search_cta(skip=None, limit=None):  # noqa: E501
     :param limit: maximum number of records to return
     :type limit: int
 
-    :rtype: List[CTA]
+    :rtype: Dictionary{Name of CTA : Definition of CTA}
     """
-
-    script = session.get('currentScript')
-    rf = reformatScript(script)
-
-    parseCTAs(rf)
-    return jsonify(session['ctaList'].items())
+    try:
+        if session.has_key('currentScript'):
+            script = session.get('currentScript')
+            rf = reformatScript(script)
+            parseCTAs(rf)
+            return jsonify(session['ctaList']), 200
+        else:
+            return jsonify(session['ctaList']), 200
+    except:
+        handle_404_error(404)
 
 def parseCTAs(script):
+    """ Parses a script and extracts CTAs from it. 
+        Appends the 'session' variable with a 'ctaList' dictionary.
+
+        :param script: Cta refinement script
+        :type script: string
+    """
     ctaName = ""
     while script.find("Cta") != -1:
         spScript = script.split()
@@ -146,15 +176,33 @@ def parseCTAs(script):
             session["ctaList"].update({ctaName : ctaDefinition + "}"})
         else:
             session["ctaList"] = {ctaName : ctaDefinition + "}"}
-        
+
         start = script.find("Cta") + 3
         script = script[start:]
 
 
 def endOfCTA(str,str2):
+    """
+    Signifies the end of a CTA object within a script
+
+    :param str: String to test for object end tokens
+    :type str: string
+    :param str2: String to test for object end tokens
+    :type str2: string
+
+    :rtype: boolean
+    """
     return str.find("};") != -1 or str[-1].find("}") != -1 and str2[0].find(";") != -1
 
 def reformatScript(script):
+    """
+    Reformats script for compatibility with 'parseCTA' function, and returns the new version
+
+    :param script: CTA refinement script
+    :type script: string
+
+    :rtype: string
+    """
     spScript = script.split()
     rfScript = ""
     newStr = ""
@@ -165,13 +213,11 @@ def reformatScript(script):
                     newStr = newStr + " ; "
                 else:
                     newStr = newStr + i
-            rfScript = rfScript + newStr + " "        
+            rfScript = rfScript + newStr + " "
             newStr = "" 
         else:
             rfScript = rfScript + str + " "
     return rfScript
-
-
 
 @REFINER_API.errorhandler(400)
 def handle_400_error(_error):
@@ -185,7 +231,7 @@ def handle_404_error(_error):
     return make_response(jsonify({'error': 'CTA Not found'}), 404)
 
 
-@REFINER_API.errorhandler(500)
-def handle_500_error(_error):
-    """Return a http 500 error to client"""
-    return make_response(jsonify({'error': 'Server error'}), 500)
+#@REFINER_API.errorhandler(500)
+#def handle_500_error(_error):
+#    """Return a http 500 error to client"""
+#    return make_response(jsonify({'error': 'Server error'}), 500)

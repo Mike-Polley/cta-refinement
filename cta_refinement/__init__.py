@@ -184,7 +184,6 @@ def handle_404_json_error(_error):
     return jsonify(src="Oops Resource Not Found. We are working hard to fix this...",
     result="Oops Resource Not Found. We are working hard to fix this...")
 
-
 @app.errorhandler(500)
 def handle_500_error(_error):
     """Return a http 500 error to client"""
