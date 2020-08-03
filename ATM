@@ -113,3 +113,4 @@ Bank1 refines? Bank;
 Bank2 refines? Bank;
 
 Bank3 refines? Bank;
+Show(Bank);

@@ -1,4 +1,5 @@
-from python_dbm import Context
+from udbm import Context
+from functools import reduce
 
 class DBMTransition:
 	
@@ -12,29 +13,29 @@ class DBMTransition:
 		self.guard = guard
 		self.context = context
 		self.resets = []
-		for x in resets: self.addReset(x)
+		for x in resets: self.add_reset(x)
 
-	def addReset(self, clock):
+	def add_reset(self, clock):
 		assert clock.context == self.context
 		self.resets.append(clock)
 
-	def isSending(self):
+	def is_sending(self):
 		return self.sending
 
-	def isReceiving(self):
+	def is_receiving(self):
 		return not self.sending
 
-	def resetsToString(self):
+	def resets_to_string(self):
 		if self.resets:
 			return "{" + reduce(lambda r1,r2: r1 + ";" + r2,map(lambda r: r.name, self.resets)) + "}"
 		else:
 			return "{}"
 
 	def __str__(self):
-		if self.isSending():
-			return self.src + " " + self.channel + "!" + self.action + "(" + str(self.guard) + "," + self.resetsToString() + ") " + self.dst
+		if self.is_sending():
+			return self.src + " " + self.channel + "!" + self.action + "(" + str(self.guard) + "," + self.resets_to_string() + ") " + self.dst
 		else:
-			return self.src + " " + self.channel + "?" + self.action + "(" + str(self.guard) + "," + self.resetsToString() + ") " + self.dst
+			return self.src + " " + self.channel + "?" + self.action + "(" + str(self.guard) + "," + self.resets_to_string() + ") " + self.dst
 		
 class DBMCta:
 
@@ -48,19 +49,15 @@ class DBMCta:
 	def generate(self,transitions):
 		for t in transitions: 
 			assert t.context == self.context
-			self.addState(t.src)
-			self.addState(t.dst)
-			self.addTransition(t)
+			self.add_state(t.src)
+			self.add_state(t.dst)
+			self.add_transition(t)
 			
-	def addState(self,state):
+	def add_state(self,state):
 		self.states.add(state)
-#		if state not in self.states:
-#			self.states.append(state)
 
-	def addTransition(self,t):
+	def add_transition(self,t):
 		self.transitions.add(t)
-#		if t not in self.transitions:
-#			self.transitions.append(t)
 
 	def pre(self,q):
 		assert q in self.states
@@ -74,13 +71,13 @@ class DBMCta:
 
 	def sending(self,q):
 		return reduce(lambda g1, g2: g1 | g2,
-			map(lambda t: t.guard,filter(lambda t: t.src == q and t.isSending(),
+			map(lambda t: t.guard,filter(lambda t: t.src == q and t.is_sending(),
 				self.transitions)),
 			false(self.context))
 
 	def receiving(self,q):
 		return reduce(lambda g1, g2: g1 | g2,
-			map(lambda t: t.guard,filter(lambda t: t.src == q and t.isReceiving(),
+			map(lambda t: t.guard,filter(lambda t: t.src == q and t.is_receiving(),
 				self.transitions)),
 			false(self.context))
 	def les(self,q):
@@ -110,20 +107,12 @@ def refines(ctaA,ctaB,f):
 		return False
 	for t in ctaA.transitions:
 		if not search(lambda x : f(t,x),ctaB.transitions):
-			print "No matching edge for " + str(t) + " of left machine" 
+			print("No matching edge for " + str(t) + " of left machine")
 			return False
-#		l = filter(lambda x : f(t,x), ctaB.transitions)
-#		if l == []: 
-#			print "No matching edge for " + str(t) + " of left machine" 
-#			return False
 	for t in ctaB.transitions:
 		if not search(lambda x : f(x,t),ctaA.transitions):
-			print "No matching edge for " + str(t) + " of right machine" 
+			print("No matching edge for " + str(t) + " of right machine")
 			return False
-#		l = filter(lambda x : f(x,t), ctaA.transitions)
-#		if l == []: 
-#			print "No matching edge for " + str(t) + " of right machine" 
-#			return False
 	return True 
 
 def search(f,l):
@@ -132,8 +121,8 @@ def search(f,l):
 			return True
 	return False
 
-def structurePres(t1,t2):
-	if not t1.isSending() == t2.isSending():
+def structure_pres(t1,t2):
+	if not t1.is_sending() == t2.is_sending():
 		return False
 	if not t1.src == t2.src: 
 		return False
@@ -151,24 +140,24 @@ def structurePres(t1,t2):
 			return False
 	return True
 
-def restrictionFunction(t1,t2):
-	if structurePres(t1,t2):
+def restriction_function(t1,t2):
+	if structure_pres(t1,t2):
 		return t1.guard <= t2.guard
 	else:
 		return False
 
-def asymmetricFunction(t1,t2):
-	if structurePres(t1,t2):
-		if t1.isSending():
+def asymmetric_function(t1,t2):
+	if structure_pres(t1,t2):
+		if t1.is_sending():
 			return t1.guard <= t2.guard
 		else:
 			return t2.guard <= t1.guard
 	else:
 		return False
 
-def procrastinatorFunction(t1,t2):
-	if structurePres(t1,t2):
-		if t1.isSending():
+def procrastinator_function(t1,t2):
+	if structure_pres(t1,t2):
+		if t1.is_sending():
 			return t1.guard <= t2.guard
 		else:
 			return t1.guard <= t2.guard and t2.guard.down() <= t1.guard.down()
@@ -180,21 +169,21 @@ def llesp(ctaA,ctaB):
 	for q in ctaA.states:
 		PP = ctaA.post(ctaA.pre(q),q)
 		if not q in ctaB.states:
-			print "State " + q + " not present in second machine."
+			print("State " + str(q) + " not present in second machine.")
 			return False
 		if not (PP & ctaB.les(q)) <= (PP & ctaA.les(q)):
-			print "Refinement is not llesp at state " + q + "."
+			print("Refinement is not llesp at state " + str(q) + ".")
 			return False
 	return True
 
-def srRefines(ctaA,ctaB):
-	return refines(ctaA, ctaB, restrictionFunction)
+def sr_refines(ctaA,ctaB):
+	return refines(ctaA, ctaB, restriction_function)
 
-def srpRefines(ctaA,ctaB):
-	return refines(ctaA, ctaB, procrastinatorFunction)
+def srp_refines(ctaA,ctaB):
+	return refines(ctaA, ctaB, procrastinator_function)
 
-def aRefines(ctaA,ctaB):
-	return refines(ctaA, ctaB, asymmetricFunction)
+def a_refines(ctaA,ctaB):
+	return refines(ctaA, ctaB, asymmetric_function)
 				
 def true(c):
 	return c.getZeroFederation().setInit()
