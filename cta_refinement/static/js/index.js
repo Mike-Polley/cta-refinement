@@ -13,7 +13,7 @@ function validateCta(cta){
    while(matched = ctaPattern.exec(cta)){
        matchingArray.push(matched);
    }
- 
+
    if(checkTags(enteredCtas) != 0){
       document.getElementById("reqCloseTag").hidden = false;
    }
