@@ -1,29 +1,62 @@
 from xml.dom import minidom
 
+class xmlParser:
 
-doc = minidom.parse('simpleCta.xml')
-initRef = doc.getElementsByTagName('init')
-init = initRef[0].attributes['ref'].value
+    def __init__(self,doc):
+        try:
+            self.doc = minidom.parse(doc)
+        except:
+            return "Failed to open document"
 
-locations = doc.getElementsByTagName("location")
+    def get_init(self):
+        self.initRef = self.doc.getElementsByTagName('init')
+        self.init = self.initRef[0].attributes['ref'].value
+        return self.init
 
-for i in range(len(locations)):
-    if locations[i].attributes["id"].value == init:
-        firstLocation = locations[i]
-    else:
-        pass
+    def get_cta_name(self):
+        self.cta_name = self.doc.getElementsByTagName("name")[0].firstChild.nodeValue
+        return self.cta_name
 
-locationName = firstLocation.getElementsByTagName("name")
-name = locationName[0].firstChild.nodeValue
+    def get_sources(self):
+        self.sources = []
+        doc_sources = self.doc.getElementsByTagName("source")
+        for i in range(len(doc_sources)):
+            self.sources.append(doc_sources[i].attributes["ref"].value)
+        return self.sources
 
-source = doc.getElementsByTagName("source")
-sources = []
-for i in range(len(source)):
-    sources.append(source[i].attributes["ref"].value)
+    def get_targets(self):
+        self.targets = []
+        doc_targets = self.doc.getElementsByTagName("target")
+        for i in range(len(doc_targets)):
+            self.targets.append(doc_targets[i].attributes["ref"].value)
+        return self.targets
 
-target = doc.getElementsByTagName("target")
-targets = []
-for i in range(len(target)):
-    targets.append(target[i].attributes["ref"].value)
+    def get_synchronisations(self):
+        self.synchronisations = []
+        doc_labels = self.doc.getElementsByTagName("label")
+        for i in range(len(doc_labels)):
+            if doc_labels[i].attributes["kind"].value == "synchronisation":
+                self.synchronisations.append(doc_labels[i].firstChild.nodeValue)
+            else:
+                pass
+        return self.synchronisations
 
-print("Cta simpleCta = {Init " + init + "; \n" + init + " UM!" + name + " " + targets[0] + ";};")
+    def gen_cta(self):
+        self.cta = ''
+        cta_builder = []
+        cta_builder.append(("Cta " + self.get_cta_name() + 
+        " = {Init " + self.get_init() + ";"))
+        sources = self.get_sources()
+        synchronisations = self.get_synchronisations()
+        targets = self.get_targets()
+        for i in range(len(sources)):
+            cta_builder.append(sources[i] + " ")
+            cta_builder.append(synchronisations[i] + " ")
+            cta_builder.append(targets[i] +";")
+        cta_builder.append("}")
+        return self.cta.join(cta_builder)
+
+
+if __name__ == "__main__":
+    parse = xmlParser('onoff.xml')
+    print(parse.gen_cta())

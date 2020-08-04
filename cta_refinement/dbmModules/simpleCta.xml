@@ -3,7 +3,7 @@
 <nta>
 	<declaration>// Place global declarations here.</declaration>
 	<template>
-		<name x="5" y="5">Template</name>
+		<name x="5" y="5">simpleCta</name>
 		<declaration>// Place local declarations here.</declaration>
 		<location id="id0" x="0" y="0">
 			<name x="-10" y="-34">Start</name>
