@@ -49,14 +49,17 @@ class xmlParser:
         sources = self.get_sources()
         synchronisations = self.get_synchronisations()
         targets = self.get_targets()
-        for i in range(len(sources)):
+        for i in range(len(synchronisations)):
             cta_builder.append(sources[i] + " ")
             cta_builder.append(synchronisations[i] + " ")
             cta_builder.append(targets[i] +";")
-        cta_builder.append("}")
+        cta_builder.append("};")
         return self.cta.join(cta_builder)
 
 
 if __name__ == "__main__":
     parse = xmlParser('onoff.xml')
+    print(parse.get_sources())
+    print(parse.get_synchronisations())
+    print(parse.get_targets())
     print(parse.gen_cta())
