@@ -11,7 +11,7 @@ def get_blueprint():
     """Return the blueprint for the main app module"""
     return REFINER_API
 
-@REFINER_API.route('/api/cta/<string:cta_name>', methods=['GET','POST','PUT','DELETE'])
+@REFINER_API.route('/api/cta/<string:cta_name>', methods=['GET','POST','PUT','DELETE'],defaults={"cta_name":None})
 def add_cta(cta_name):  # noqa: E501
     """Adds/Removes/Updates/Gets a CTA from the session
 
