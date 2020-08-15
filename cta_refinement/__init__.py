@@ -2,13 +2,15 @@ from flask import Flask, render_template, request, url_for, redirect, send_file,
 import sys
 import os
 import tempfile
-from settings import DBMDIRECTORY, JSONDIRECTORY
-sys.path.append(DBMDIRECTORY)
+from settings import DBMDIRECTORY, JSONDIRECTORY, GOGENERATOR
+sys.path.append(DBMDIRECTORY), sys.path.append(GOGENERATOR)
 from CtaWebFunctions import *
 import random
 import json
 from flask_swagger_ui import get_swaggerui_blueprint
 from api import get_blueprint
+from Cta_Loader import load_automata
+from Golang_generator import generate_go_lang
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -21,16 +23,27 @@ def home():
 @app.route("/share/output",methods=["POST","GET"])
 @app.route("/output",methods=["POST","GET"])
 def output():
-    try:
-        a = request.args.get('a', 0, type=str)
-        session.update({'currentScript' : str(a)})
-        format = str(request.args.get('b', 0, type=str))
-        tf = tempfile.NamedTemporaryFile().name
-        scriptResponse = webScriptRefinementChecker(str(a),tf,format)
-        tf = "files/imagetemp" + tf + "." + format
-        return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
-    except:
-        return handle_404_json_error(404)
+    if request.args.get('c', 0, type=str) == 'false':
+        try:
+            a = request.args.get('a', 0, type=str)
+            session.update({'currentScript' : str(a)})
+            format = str(request.args.get('b', 0, type=str))
+            tf = tempfile.NamedTemporaryFile().name
+            scriptResponse = webScriptRefinementChecker(str(a),tf,format)
+            tf = "files/imagetemp" + tf + "." + format
+            return jsonify(result=Markup(scriptResponse),image=url_for('static',filename=tf))
+        except:
+            return handle_404_json_error(404)
+    else:
+        try:
+            a = request.args.get('a', 0, type=str)
+            automata_list = load_automata(a)
+            golang_line = generate_go_lang(automata_list)
+            return jsonify(result=Markup(golang_line))
+        except:
+            return handle_404_json_error(404)
+
+
 
 @app.route("/grammar")
 def grammar():

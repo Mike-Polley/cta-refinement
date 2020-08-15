@@ -58,7 +58,7 @@ class xmlParser:
 
 
 if __name__ == "__main__":
-    parse = xmlParser('onoff.xml')
+    parse = xmlParser('2doors.xml')
     print(parse.get_sources())
     print(parse.get_synchronisations())
     print(parse.get_targets())
