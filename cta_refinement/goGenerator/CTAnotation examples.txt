@@ -1,0 +1,10 @@
+The CTA notation are grouped as they should be given to the program. The program can take more than two.
+
+'Cta S = Init s0;s0 q?req(x >= 1) s1;s1 q!timeout(x > 3) s2;s1 q?ping(x <= 3,{x}) s3;s3 q!pong(x >= 1) s1;'
+'Cta Q = Init q0;q0 s!req(x >= 1) q1;q1 s?timeout(x >= 5) q2;q1 s!ping(x < 5) q3;q3 s?pong(x > 1) q1;'
+
+'Cta Q = Init q0;q0 z?ping(x <= 5) q1;q0 z!stop(x > 5) q2;q1 z!pong(true) q0;'
+'Cta Z = Init z0;z0 q!ping(true) z1;z1 q?stop(true) z2;z1 q?pong(true) z0;'
+
+'Cta Q = Init q0;q0 z!a(x <= 2) q1;'
+'Cta Z = Init z0;z0 q?a(x <= 2) z1;'

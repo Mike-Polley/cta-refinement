@@ -34,6 +34,8 @@ User1 refines? User;
 <label for ="scriptFile"> Upload script: </label>
 <input id="scriptFile" type="file">
 <br>
+<input type="checkbox" id="generateGo" name="generateGo" value="1">
+<label for="generateGo">Generate GoLang</label>
 <input type="button" value="Submit" onclick="enterText();">
 <div id="file-content" style="display: none;"></div>
    <div>
@@ -71,7 +73,8 @@ User1 refines? User;
       $('#hiddenForm').bind('click',function() {
          $.getJSON($SCRIPT_ROOT + 'output', {
             a: $('input[name="script"]').val(),
-            b: $('#imageTypes').val()
+            b: $('#imageTypes').val(),
+            c: $('input[name="generateGo"]').prop("checked")
          }, function(data) {
                $("#outputText").html(data.result);
                $("#resultImg").attr('src',data.image);
