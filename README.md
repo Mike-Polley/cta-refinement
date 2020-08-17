@@ -1,4 +1,17 @@
-This tool implements the theory of "Compositional asynchronous timed refinement".
+This project builds on the a tool implemented to check refinements between commmunicating
+asynchronous timed automated. We provide a web based user interface for interacting with the
+tool this can be found when connecting to University of Kent VPN at 129.12.44.117. 
+Our web interface provides syntax highlighting, validation of CTA form, generation of graphical
+representation within the browser, conversion to GOLang (through the inclusion of another tool which we did not develop)
+upload of scripts, download of outputs, sharing of scripts. All sample scripts can be used.
+
+We also provide a REST API which can be used to integrate this tool into further applications
+the end points of this can be found at /swagger/.
+
+
+The Web implementation has many dependecies and is currently only compatible with Python2.
+The settings file includes directories where we would expect files to be located within a Linux
+environment - these can be altered should you wish to change locations.
 
 (1) Installation instructions (Ubuntu only)
 -------------------------------------------
@@ -22,11 +35,21 @@ sudo apt-get install graphviz
 (d) Install graphviz (http://graphviz.readthedocs.io/en/stable/index.html):
 pip install graphviz
 
+(e) Install Flask (https://flask.palletsprojects.com/en/1.1.x/):
+pip install flask
+
+(f) Install flask_swagger_ui  (https://pypi.org/project/flask-swagger-ui/):
+pip install flask-swagger-ui
+
+(f) Install pytest  (https://docs.pytest.org/en/stable/getting-started.html#install-pytest):
+pip install -U pytest
 
 (2) Running the tool
 --------------------
 
-The tool can be run with command: ./run.py <script_name>.
+To start the web server and view in browser run python2 __ini__.py
+
+The tool can still be run on command line and can  be run with command: ./run.py <script_name>.
 Directory 'Examples' contains tests scripts described in the paper.
 
 (3) Scripting language
@@ -63,11 +86,4 @@ Refinement checking is performed with:
 U1 refines? U2;
 ```
 
-The full grammar of the language is in file 'grammar'.
-
-(4) Benchmarking
-----------------
-
-We provide a small utility for generating arbitrarily large CTAs. It can be run with command: ./TestGen.py <number_of_states> <number_of_clocks>.
-The output will be in file "test" and can be given in input to run.py.
-# cta-refinement
+The full grammar of the language is on the page 'grammar'.
