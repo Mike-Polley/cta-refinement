@@ -4,17 +4,17 @@ webframework specifically it allows for CtaRefinement tool to accept String
 data types and return Strings back for rendering within webtemplates.
 This file can also be imported as a module and contains the following
 functions:
-    * webRefines - checks for refinements between two Cta Objects returns
+    * web_refines - checks for refinements between two Cta Objects returns
                     a String output of refinement outcome.
-    * webSrRefines - implements webRefines with a restrictor function.
-    * webSrpRefines - implements webRefines with a procrastinator function.
-    * webARefines - implements webRefines with a asymettric function.
-    * webllesp - checks llesp characteristics between two Cta returns
+    * web_sr_refines - implements web_refines with a restrictor function.
+    * web_srp_refines - implements web_refines with a procrastinator function.
+    * web_A_refines - implements web_refines with a asymettric function.
+    * web_llesp - checks llesp characteristics between two Cta returns
                 a String output.
-    * webQuery - implements webllesp with Cta enviroment variables
-    * webExecuteScript - iterates through numerous Ctas present in query String 
-                        passes to webQuery
-    * webRefinementChecker - key function loads grammar file and provides error 
+    * web_query - implements web_llesp with Cta enviroment variables
+    * web_execute - iterates through numerous Ctas present in query String 
+                        passes to web_query
+    * web_refinement_checker - key function loads grammar file and provides error 
         checking on String passed - should be used as the main funcation.
     * main - passes to webRefinementChecker
 """
@@ -25,8 +25,11 @@ from CtaParser import *
 import os
 
 
-def webRefines(ctaA,ctaB,f):
-    	assert ctaA.context == ctaB.context
+def web_refines(ctaA,ctaB,f):
+	""" checks for refinements between two Cta Objects returns
+		a String output of refinement outcome.
+	"""
+	assert ctaA.context == ctaB.context
 	if not ctaA.initial == ctaB.initial: 
 		return False
 	for t in ctaA.transitions:
@@ -37,18 +40,27 @@ def webRefines(ctaA,ctaB,f):
 			return "No matching edge for " + str(t) + " of right machine.\n " + "False.\n"
 	return "True"
 
-def webSrRefines(ctaA,ctaB):
-    	return webRefines(ctaA, ctaB, restrictionFunction)
+def web_sr_refines(ctaA,ctaB):
+	""" implements web_refines with a restrictor function.
+	"""
+	return web_refines(ctaA, ctaB, restrictionFunction)
 
-def webSrpRefines(ctaA,ctaB):
-	return webRefines(ctaA, ctaB, procrastinatorFunction)
+def web_srp_refines(ctaA,ctaB):
+	""" implements web_refines with a procrastinator function.
+	"""
+	return web_refines(ctaA, ctaB, procrastinatorFunction)
 
-def webARefines(ctaA,ctaB):
-	return webRefines(ctaA, ctaB, asymmetricFunction)
+def web_A_refines(ctaA,ctaB):
+	""" implements web_refines with a asymettric function.
+	"""
+	return web_refines(ctaA, ctaB, asymmetricFunction)
 
 
-def webllesp(ctaA,ctaB):
-    	assert ctaA.context == ctaB.context
+def web_llesp(ctaA,ctaB):
+	""" checks llesp characteristics between two Cta returns
+		a String output.
+	"""
+	assert ctaA.context == ctaB.context
 	for q in ctaA.states:
 		PP = ctaA.post(ctaA.pre(q),q)
 		if not q in ctaB.states:
@@ -57,10 +69,12 @@ def webllesp(ctaA,ctaB):
 			return "Refinement is not llesp at state " + q + ".\n" + "False.\n"
 	return "True."
 
-def webQuery(env, cta1name, cta2name):
-        returnStringList = []
-        returnString = ""
-        start_time = time.time()
+def web_query(env, cta1name, cta2name):
+	""" implements web_llesp with Cta enviroment variables
+	"""
+	returnStringList = []
+	returnString = ""
+	start_time = time.time()
 	try:
 		cta1 = env[cta1name]
 	except KeyError:
@@ -73,23 +87,26 @@ def webQuery(env, cta1name, cta2name):
 	dbmCta1 = cta1.toDBMCta(c)
 	dbmCta2 = cta2.toDBMCta(c)
 	returnStringList.append("Send restriction and receive procrastination refinement check: %r.\n"  
-		% webSrpRefines(dbmCta1,dbmCta2))
-	returnStringList.append("LLESP check: " + webllesp(dbmCta1,dbmCta2)+"\n")
+		% web_srp_refines(dbmCta1,dbmCta2))
+	returnStringList.append("LLESP check: " + web_llesp(dbmCta1,dbmCta2)+"\n")
 	end_time = time.time()
 	returnStringList.append("Query time: %s seconds. \n" % (end_time - start_time))
         return returnString.join(returnStringList)
 
-def webExecute(script,tf,format):
-        returnStringList = []
-        returnString = ""
-    	env = dict()
+def web_execute(script,tf,format):
+	""" iterates through numerous Ctas present in query String 
+		passes to web_query
+	"""
+	returnStringList = []
+	returnString = ""
+	env = dict()
 	for c in script:
 		if c.instrId == 'dec':
 			returnStringList.append("Loading " + c.name + ".\n")
 			env[c.name] = c.cta
 		elif c.instrId == 'query':
 			returnStringList.append("Checking refinements between " + c.cta1name + " and " + c.cta2name + ".\n")
-			response = webQuery(env, c.cta1name, c.cta2name)
+			response = web_query(env, c.cta1name, c.cta2name)
 			returnStringList.append(response)
 		elif c.instrId == 'show':
 			returnStringList.append("Showing " + c.ctaName + ".\n")
@@ -102,12 +119,17 @@ def webExecute(script,tf,format):
 			raise Exception("Invalid command: " + c.instrId)
         return returnString.join(returnStringList)
 
+
+""" Creates variable for dbmModules for grammar file"""
 if "dbmModules" not in os.getcwd():
 	dir = os.path.join(os.getcwd(),"dbmModules")
 else:
 	dir = os.getcwd()
 
-def webScriptRefinementChecker(script,tf,format):
+def web_script_refinement_checker(script,tf,format):
+    """ key function loads grammar file and provides error 
+        checking on String passed - should be used as the main funcation.
+	"""
     try:
         g = Grammar.from_file(os.path.join("/var/www/cta_refinement/cta_refinement/dbmModules","grammar"))
         parser = Parser(g, actions=actions)
@@ -121,7 +143,7 @@ def webScriptRefinementChecker(script,tf,format):
         return "Parser generation: Done. Parse input: Failed." + str(e) + ". Terminating.\n" 
         sys.exit()
     try:
-        response = webExecute(script,tf,format)
+        response = web_execute(script,tf,format)
     except Exception as e:
         return str(e) + "Script execution: Failed. Terminating.\n"
         sys.exit()
@@ -130,7 +152,7 @@ def webScriptRefinementChecker(script,tf,format):
 
 def main():
     script = str(input("Please enter script: "))
-    print webScriptRefinementChecker(script)
+    print web_script_refinement_checker(script)
 
 
 if __name__=="__main__":

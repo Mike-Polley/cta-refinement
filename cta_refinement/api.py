@@ -1,14 +1,16 @@
+""" Provides the URL routes for the REST API implementation.
+"""
 from flask import jsonify, abort, request, Blueprint, session, make_response,Response
-from settings import EXAMPLESDIRECTORY, DBMDIRECTORY
+from settings import EXAMPLES_DIRECTORY, DBM_DIRECTORY
 import os, sys
-sys.path.append(DBMDIRECTORY)
+sys.path.append(DBM_DIRECTORY)
 from CtaWebFunctions import *
 
 
 REFINER_API = Blueprint('api', __name__)
 
 def get_blueprint():
-    """Return the blueprint for the main app module"""
+    """Return the API blueprint for the main app module"""
     return REFINER_API
 
 @REFINER_API.route('/api/cta/<string:ctaName>', methods=['GET','POST','PUT','DELETE'])
@@ -67,7 +69,7 @@ def get_grammar():  # noqa: E501
     :rtype: object
     """
     try:
-        f = open(DBMDIRECTORY+"grammar","r")
+        f = open(DBM_DIRECTORY+"grammar","r")
         grammar = f.readlines()
         return jsonify(grammar_rules=grammar), 200
     except:
@@ -85,7 +87,7 @@ def get_sample(sample_name):  # noqa: E501
     :rtype: object
     """
     try:
-        f = open(EXAMPLESDIRECTORY+sample_name,"r")
+        f = open(EXAMPLES_DIRECTORY+sample_name,"r")
         example = f.readlines()
         return jsonify(name=sample_name,sample_script=example), 200
     except:
@@ -102,7 +104,7 @@ def get_samples():  # noqa: E501
     """
     try:
         examples = []
-        for files in os.listdir(EXAMPLESDIRECTORY):
+        for files in os.listdir(EXAMPLES_DIRECTORY):
             examples.append(files)
         return str(examples), 200
     except:
@@ -229,9 +231,3 @@ def handle_400_error(_error):
 def handle_404_error(_error):
     """Return a http 404 error to client"""
     return make_response(jsonify({'error': 'CTA Not found'}), 404)
-
-
-#@REFINER_API.errorhandler(500)
-#def handle_500_error(_error):
-#    """Return a http 500 error to client"""
-#    return make_response(jsonify({'error': 'Server error'}), 500)
