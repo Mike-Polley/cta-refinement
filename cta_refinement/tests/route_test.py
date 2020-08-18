@@ -1,6 +1,6 @@
 """ Module provides unit testing functionality for url routes for web interface
     requires module pytest.
-    To run at command line enter: pytest routeTests.py
+    To run at command line enter: pytest route_test.py
 """
 import pytest
 import sys
