@@ -12,15 +12,13 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "servers": [
-    {
-      "url": "/"
-    }
-  ],
+  "host" : "127.0.0.1:5000",
+  "basePath" : "",
   "tags" : [ {
     "name" : "developers",
     "description" : "Operations available to regular developers"
   } ],
+  "schemes" : [ "https", "http" ],
   "paths" : {
     "/api/cta" : {
       "get" : {
@@ -61,62 +59,6 @@
             "description" : "bad input parameter"
           }
         }
-      },
-      "post" : {
-        "tags" : [ "developers" ],
-        "summary" : "Adds a CTA to the session",
-        "description" : "Adds a CTA to the session",
-        "operationId" : "addCta",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "CTA",
-          "description" : "CTA to add",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/CTA"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "cta created"
-          },
-          "400" : {
-            "description" : "invalid input, object invalid"
-          },
-          "404" : {
-            "description" : "an existing cta with same name already exists"
-          }
-        }
-      },
-      "put" : {
-        "tags" : [ "developers" ],
-        "summary" : "Updates a CTA in the session",
-        "description" : "updates a CTA in the session",
-        "operationId" : "updateCta",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "CTA",
-          "description" : "CTA to update",
-          "required" : false,
-          "schema" : {
-            "$ref" : "#/definitions/CTA"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "cta updated"
-          },
-          "400" : {
-            "description" : "invalid input, object invalid"
-          },
-          "404" : {
-            "description" : "can not find cta with specified name"
-          }
-        }
       }
     },
     "/api/cta/{ctaName}" : {
@@ -148,6 +90,74 @@
           }
         }
       },
+      "post" : {
+        "tags" : [ "developers" ],
+        "summary" : "Adds a CTA to the session",
+        "description" : "Adds a CTA to the session",
+        "operationId" : "addCta",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctaName",
+          "in" : "path",
+          "description" : "pass an optional search string for looking up a cta",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "CTA",
+          "description" : "CTA to add",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CTA"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "cta created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "404" : {
+            "description" : "an existing cta with same name already exists"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "developers" ],
+        "summary" : "Updates a CTA in the session",
+        "description" : "updates a CTA in the session",
+        "operationId" : "updateCta",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "ctaName",
+          "in" : "path",
+          "description" : "pass an optional search string for looking up a cta",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "CTA",
+          "description" : "CTA to update",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CTA"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "cta updated"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "404" : {
+            "description" : "can not find cta with specified name"
+          }
+        }
+      },
       "delete" : {
         "tags" : [ "developers" ],
         "summary" : "deletes a CTA from session",
@@ -171,7 +181,7 @@
         }
       }
     },
-    "/api/cta/{ctaName1}/refines/{ctaName2}" : {
+    "/api/cta/{cta_name1}/refines/{cta_name2}" : {
       "get" : {
         "tags" : [ "developers" ],
         "summary" : "Gets refinements between two CTAs.",
@@ -179,13 +189,13 @@
         "operationId" : "refineCTAS",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "ctaName1",
+          "name" : "cta_name1",
           "in" : "path",
           "description" : "gets refinements between two ctas",
           "required" : true,
           "type" : "string"
-        }, {
-          "name" : "ctaName2",
+        },{
+          "name" : "cta_name2",
           "in" : "path",
           "description" : "gets refinements between two ctas",
           "required" : true,
@@ -273,16 +283,16 @@
   "definitions" : {
     "CTA" : {
       "type" : "object",
-      "required" : [ "name" ],
+      "required" : [ "CTA" ],
       "properties" : {
         "name" : {
           "type" : "string",
-          "example" : "ATM"
+          "example" : "User1"
         },
         "CTA" : {
           "type" : "string",
           "format" : "domain-specific",
-          "example" : "Cta ATM = { Init q0; q0 UM!card q1; q1 MU?pinrequest({x}) q2; q2 UM!pin(x <= 30) q3; q3 MU?menu q4; };"
+          "example" : "\"User1\":\"Init q0;q0 UM!card q1;q1 MU?pinrequest({x}) q2;q2 UM!pin(x <= 30) q3;q3 MU?menu q4;\""
         }
       }
     },

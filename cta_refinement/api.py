@@ -3,6 +3,7 @@
 from flask import jsonify, abort, request, Blueprint, session, make_response,Response
 from settings import EXAMPLES_DIRECTORY, DBM_DIRECTORY
 import os, sys
+import json
 sys.path.append(DBM_DIRECTORY)
 from CtaWebFunctions import *
 
@@ -13,7 +14,7 @@ def get_blueprint():
     """Return the API blueprint for the main app module"""
     return REFINER_API
 
-@REFINER_API.route('/api/cta/<string:cta_name>', methods=['GET','POST','PUT','DELETE'],defaults={"cta_name":None})
+@REFINER_API.route('/api/cta/<string:cta_name>', methods=['GET','POST','PUT','DELETE'])
 def add_cta(cta_name):  # noqa: E501
     """Adds/Removes/Updates/Gets a CTA from the session
 
@@ -29,20 +30,17 @@ def add_cta(cta_name):  # noqa: E501
             return jsonify(get_cta(cta_name)), 200
         except:
             return handle_404_error(404)
-    
-    if request.method == 'POST':
-        try:
-            cta = request.get_json()
-            name = cta["name"]
-            definition = cta["CTA"]
 
-            if cta_present(name):
-                return "A CTA with the name " + name + " already exists in this session.", 400 
-            else:
-                append_cta(name, definition)
-                return json.dumps(session["CTA List"]), 200
-        except:
-            return handle_404_error(404)
+    if request.method == 'POST':
+        cta = request.get_json()
+        name = cta['name']
+        definition = cta["CTA"]
+
+        if cta_present(name):
+            return "A CTA with the name " + name + " already exists in this session.", 400 
+        else:
+            append_cta(name, definition)
+            return json.dumps(session["CTA List"]), 200
 
     if request.method == 'PUT':
         try:
@@ -87,7 +85,7 @@ def get_grammar():  # noqa: E501
     except:
         return handle_404_error(404)
 
-@REFINER_API.route('/api/sample-scripts/<sample_name>', methods=['GET'])
+@REFINER_API.route('/api/sample-scripts/<string:sample_name>', methods=['GET'])
 def get_sample(sample_name):  # noqa: E501
     """returns a specified sample script
 
@@ -136,6 +134,8 @@ def refine_ctas(cta_name1,cta_name2):  # noqa: E501
     try:
         cta1 = get_cta(cta_name1)
         cta2 = get_cta(cta_name2)
+        print(cta1)
+        print(cta2)
 
         script = ("Cta " + cta_name1 + " = " + str(cta1["CTA"]) + "; Cta " + cta_name2 + " = " 
         + str(cta2["CTA"]) + ";" + cta_name1 + " refines? " + cta_name2 + ";")
@@ -159,9 +159,6 @@ def search_cta(skip=None, limit=None):  # noqa: E501
     """
 
     try:
-        script = session.get('currentScript')
-        rf_script = reformat_script(script)
-        parse_ctas(rf_script)
         return json.dumps(session["CTA List"]), 200
     except:
         return handle_404_error(404)
@@ -234,6 +231,8 @@ def reformat_script(script):
     return rf_script
 
 def cta_present(name):
+    if not session.has_key("CTA List"):
+        return False
     c = -1
     for cta in session["CTA List"]:
         if cta["name"] == name:
