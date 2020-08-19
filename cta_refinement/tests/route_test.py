@@ -1,6 +1,6 @@
 """ Module provides unit testing functionality for url routes for web interface
     requires module pytest.
-    To run at command line enter: pytest routeTests.py
+    To run at command line enter: pytest route_test.py
 """
 import pytest
 import sys
@@ -32,7 +32,7 @@ def test_grammar(app,client):
 
     """Test that output will fail with no input
     """
-def test_ouput_failure(app,client):
+def test_output_failure(app,client):
     res = client.get('/output')
     assert res.status_code == 200
     assert "Failed" in res.data

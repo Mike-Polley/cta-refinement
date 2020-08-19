@@ -25,7 +25,7 @@
         "tags" : [ "developers" ],
         "summary" : "Searches CTAs in your session.",
         "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
-        "operationId" : "searchCTA",
+        "operationId" : "search_cta",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "skip",
@@ -61,15 +61,15 @@
         }
       }
     },
-    "/api/cta/{ctaName}" : {
+    "/api/cta/{cta_name}" : {
       "get" : {
         "tags" : [ "developers" ],
         "summary" : "Searches CTAs in your session.",
         "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
-        "operationId" : "searchSingleCTA",
+        "operationId" : "cta_functions",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "ctaName",
+          "name" : "cta_name",
           "in" : "path",
           "description" : "pass an optional search string for looking up a cta",
           "required" : true,
@@ -94,11 +94,11 @@
         "tags" : [ "developers" ],
         "summary" : "Adds a CTA to the session",
         "description" : "Adds a CTA to the session",
-        "operationId" : "addCta",
+        "operationId" : "cta_functions",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "ctaName",
+          "name" : "cta_name",
           "in" : "path",
           "description" : "pass an optional search string for looking up a cta",
           "required" : true,
@@ -128,11 +128,11 @@
         "tags" : [ "developers" ],
         "summary" : "Updates a CTA in the session",
         "description" : "updates a CTA in the session",
-        "operationId" : "updateCta",
+        "operationId" : "cta_functions",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "ctaName",
+          "name" : "cta_name",
           "in" : "path",
           "description" : "pass an optional search string for looking up a cta",
           "required" : true,
@@ -162,10 +162,10 @@
         "tags" : [ "developers" ],
         "summary" : "deletes a CTA from session",
         "description" : "By passing in the CTA name you are able to delete a specific CTA\nfrom the session\n",
-        "operationId" : "deleteCTA",
+        "operationId" : "cta_functions",
         "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "ctaName",
+          "name" : "cta_name",
           "in" : "path",
           "description" : "pass a search string for deleting a cta",
           "required" : true,
@@ -186,7 +186,7 @@
         "tags" : [ "developers" ],
         "summary" : "Gets refinements between two CTAs.",
         "description" : "By passing in the appropriate options, you can search for\nctas which are currently defined in the system\n",
-        "operationId" : "refineCTAS",
+        "operationId" : "refine_ctas",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "cta_name1",
@@ -219,7 +219,7 @@
         "tags" : [ "developers" ],
         "summary" : "Gets CTA grammar rules.",
         "description" : "This will return the grammar rules for specifying CTAs\n",
-        "operationId" : "getGrammar",
+        "operationId" : "get_grammar",
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
@@ -240,7 +240,7 @@
         "tags" : [ "developers" ],
         "summary" : "returns a list of available sample scripts",
         "description" : "Returns a list of available sample scripts which can\nbe passed as a parameter to retrieve specific sample\n",
-        "operationId" : "getSamples",
+        "operationId" : "get_samples",
         "produces" : [ "application/json" ],
         "parameters" : [ ],
         "responses" : {
@@ -258,7 +258,7 @@
         "tags" : [ "developers" ],
         "summary" : "returns a specified sample script",
         "description" : "By passing in the specified sample script name\nyou are able to get a sample script\n",
-        "operationId" : "getSample",
+        "operationId" : "get_sample",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "sample-name",
@@ -292,7 +292,7 @@
         "CTA" : {
           "type" : "string",
           "format" : "domain-specific",
-          "example" : "\"Init q0;q0 UM!card q1;q1 MU?pinrequest({x}) q2;q2 UM!pin(x <= 30) q3;q3 MU?menu q4;\""
+          "example" : "Init q0;q0 UM!card q1;q1 MU?pinrequest({x}) q2;q2 UM!pin(x <= 30) q3;q3 MU?menu q4;"
         }
       }
     },

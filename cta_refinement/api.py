@@ -15,7 +15,7 @@ def get_blueprint():
     return REFINER_API
 
 @REFINER_API.route('/api/cta/<string:cta_name>', methods=['GET','POST','PUT','DELETE'])
-def add_cta(cta_name):  # noqa: E501
+def cta_functions(cta_name):  # noqa: E501
     """Adds/Removes/Updates/Gets a CTA from the session
 
     Adds/Removes/Updates/Gets a CTA to the session # noqa: E501
@@ -27,17 +27,18 @@ def add_cta(cta_name):  # noqa: E501
     """
     if request.method == 'GET':
         try:
-            return jsonify(get_cta(cta_name)), 200
+            cta = get_cta(cta_name)
+            return json.dumps(cta), 200
         except:
             return handle_404_error(404)
 
     if request.method == 'POST':
         cta = request.get_json()
-        name = cta['name']
+        name = cta["name"]
         definition = cta["CTA"]
 
         if cta_present(name):
-            return "A CTA with the name " + name + " already exists in this session.", 400 
+            return "A CTA with the name " + name + " already exists in this session.", 400
         else:
             append_cta(name, definition)
             return json.dumps(session["CTA List"]), 200
@@ -51,8 +52,8 @@ def add_cta(cta_name):  # noqa: E501
             if cta_present(cta_name):
                 cta_obj = get_cta(cta_name)
                 cta_obj["CTA"] = definition
+		session.modified = True
                 return json.dumps(session["CTA List"]), 200
-                #return "CTA '" + cta_obj["name"] +  "' successfully updated.", 200
             else:
                 return handle_404_error(404)
         except:
@@ -63,6 +64,7 @@ def add_cta(cta_name):  # noqa: E501
             for cta in session["CTA List"]:
                 if cta["name"] == cta_name:
                     session["CTA List"].remove(cta)
+		    session.modified = True
                     return json.dumps(session["CTA List"]), 200
                 else:
                     return handle_404_error(404)
@@ -91,7 +93,7 @@ def get_sample(sample_name):  # noqa: E501
 
     By passing in the specified sample script name you are able to get a sample script  # noqa: E501
 
-    :param sample_name: 
+    :param sample_name:
     :type sample_name: str
 
     :rtype: object
@@ -110,7 +112,7 @@ def get_samples():  # noqa: E501
     Returns a list of available sample scripts which can be passed as a parameter to retrieve specific sample  # noqa: E501
 
 
-    :rtype: None
+    :rtype: str
     """
     try:
         examples = []
@@ -124,9 +126,9 @@ def get_samples():  # noqa: E501
 def refine_ctas(cta_name1,cta_name2):  # noqa: E501
     """Gets refinements between two CTAs.
 
-    By passing in the appropriate options, you can search for ctas which are currently defined in the system  # noqa: E501
+    By passing in the appropriate options, you can search for ctas which are currently defined in the session  # noqa: E501
 
-    :param cta_name: gets refinements between two ctas
+    :param cta_name: the name of the CTAs that are to be refined
     :type cta_name: str
 
     :rtype: Refinement
@@ -135,9 +137,10 @@ def refine_ctas(cta_name1,cta_name2):  # noqa: E501
         cta1 = get_cta(cta_name1)
         cta2 = get_cta(cta_name2)
 
-        script = ("Cta " + cta_name1 + " = " + str(cta1["CTA"]) + "; Cta " + cta_name2 + " = " 
-        + str(cta2["CTA"]) + ";" + cta_name1 + " refines? " + cta_name2 + ";")
-        scriptResponse = webScriptRefinementChecker(str(script),"none","png")
+        script = ("Cta " + cta_name1 + " = {" + str(cta1["CTA"]) + "}; Cta " + cta_name2 + " = {"
+        + str(cta2["CTA"]) + "};" + cta_name1 + " refines? " + cta_name2 + ";")
+
+	scriptResponse = web_script_refinement_checker(str(script),"none","png")
         return jsonify(result=scriptResponse), 200
     except:
         return handle_404_error(404)
@@ -153,7 +156,7 @@ def search_cta(skip=None, limit=None):  # noqa: E501
     :param limit: maximum number of records to return
     :type limit: int
 
-    :rtype: Dictionary{Name of CTA : Definition of CTA}
+    :rtype: list
     """
 
     try:
@@ -162,8 +165,10 @@ def search_cta(skip=None, limit=None):  # noqa: E501
         return handle_404_error(404)
 
 def parse_ctas(script):
-    """ Parses a script and extracts CTAs from it. 
-        Appends the 'session' variable with a 'CTA List' dictionary.
+    """Parses a script and extracts CTAs from it.
+
+       By passing in a script, it is parsed and CTAs defined are added to the session's list
+       of CTAs.
 
         :param script: Cta refinement script
         :type script: string
@@ -174,15 +179,15 @@ def parse_ctas(script):
         index = sp_script.index("Cta")
         cta_name = sp_script[index + 1]
         index = index + 3
-        cta_definitioninition = ""
+        cta_definition = ""
 
         while not end_of_cta(sp_script[index],sp_script[index + 1]):
-            cta_definitioninition = cta_definitioninition + sp_script[index] + " "
+            cta_definition = cta_definition + sp_script[index] + " "
             index = index + 1
-        cta_obj = {"name" : cta_name, "CTA" : cta_definitioninition + "}"}
+        cta_obj = {"name" : cta_name, "CTA" : cta_definition + "}"}
         if session.has_key("CTA List"):
             if not cta_present(cta_name):
-                append_cta(cta_name,cta_definitioninition)
+                append_cta(cta_name,cta_definition)
         else:
             session["CTA List"] = [cta_obj]
 
@@ -191,11 +196,13 @@ def parse_ctas(script):
 
 
 def end_of_cta(str,str2):
-    """
-    Signifies the end of a CTA object within a script
+    """Signifies the end of a CTA object within a script.
+
+       Idenitifies the the tokens that symbolise the end of a CTA definition.
 
     :param str: String to test for object end tokens
     :type str: string
+
     :param str2: String to test for object end tokens
     :type str2: string
 
@@ -204,8 +211,9 @@ def end_of_cta(str,str2):
     return str.find("};") != -1 or str[-1].find("}") != -1 and str2[0].find(";") != -1
 
 def reformat_script(script):
-    """
-    Reformats script for compatibility with 'parse_cta' function, and returns the new version
+    """Reformats script for compatibility with 'parse_cta' function.
+
+       By reformatting the script, it can be parsed without errors by 'parse_cta'.
 
     :param script: CTA refinement script
     :type script: string
@@ -223,12 +231,22 @@ def reformat_script(script):
                 else:
                     new_str = new_str + i
             rf_script = rf_script + new_str + " "
-            new_str = "" 
+            new_str = ""
         else:
             rf_script = rf_script + str + " "
     return rf_script
 
 def cta_present(name):
+    """Looks for a specific CTA within the session.
+
+       The name if the target CTA is entered and the function returns
+       whether a CTA with a matching name exists.
+
+    :param name: Name of CTA
+    :type name: string
+
+    :rtype: boolean
+    """
     if not session.has_key("CTA List"):
         return False
     c = -1
@@ -236,20 +254,45 @@ def cta_present(name):
         if cta["name"] == name:
             c = c + 1
     return c != -1
-    
+
 
 def append_cta(name, definition):
-    definition = "{" + definition + "}"
+    """Adds given CTA to session's CTA List.
+
+       A CTA object is created, and added it to the CTA List
+       within the session.
+
+    :param name: Name of CTA
+    :type name: string
+    :param definition: Definition of the CTA
+    :type definition: string
+
+    :rtype: none
+    """
     cta_obj = {"name": name, "CTA": definition}
     if session.has_key("CTA List"):
         session["CTA List"].append(cta_obj)
+	session.modified = True
     else:
         session["CTA List"] = [cta_obj]
 
 def get_cta(name):
-    for cta in session["CTA List"]:
-        if cta["name"] == name:
-            return cta
+    """Retrieves the given CTA from the session.
+
+       Searches list of CTA's in session and returns a CTA
+       if it has a matching name.
+
+    :param name: Name of CTA
+    :type name: string
+
+    :rtype: dict
+    """
+    if session.has_key("CTA List"):
+        for cta in session["CTA List"]:
+            if cta["name"] == name:
+                return cta
+    else:
+        return None
 
 @REFINER_API.errorhandler(400)
 def handle_400_error(_error):
