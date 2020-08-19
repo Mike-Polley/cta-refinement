@@ -10,4 +10,4 @@ __pycache__
 *.jpeg
 *.jpg
 *.png
-*.json
+sessions.json
