@@ -134,8 +134,6 @@ def refine_ctas(cta_name1,cta_name2):  # noqa: E501
     try:
         cta1 = get_cta(cta_name1)
         cta2 = get_cta(cta_name2)
-        print(cta1)
-        print(cta2)
 
         script = ("Cta " + cta_name1 + " = " + str(cta1["CTA"]) + "; Cta " + cta_name2 + " = " 
         + str(cta2["CTA"]) + ";" + cta_name1 + " refines? " + cta_name2 + ";")
@@ -159,7 +157,7 @@ def search_cta(skip=None, limit=None):  # noqa: E501
     """
 
     try:
-        return json.dumps(session["CTA List"]), 200
+        return jsonify(session["CTA List"]), 200
     except:
         return handle_404_error(404)
 
@@ -241,7 +239,7 @@ def cta_present(name):
     
 
 def append_cta(name, definition):
-    definition = definition + "}"
+    definition = "{" + definition + "}"
     cta_obj = {"name": name, "CTA": definition}
     if session.has_key("CTA List"):
         session["CTA List"].append(cta_obj)

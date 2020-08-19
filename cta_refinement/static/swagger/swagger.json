@@ -12,7 +12,7 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "127.0.0.1:5000",
+  "host" : "",
   "basePath" : "",
   "tags" : [ {
     "name" : "developers",
@@ -292,7 +292,7 @@
         "CTA" : {
           "type" : "string",
           "format" : "domain-specific",
-          "example" : "\"User1\":\"Init q0;q0 UM!card q1;q1 MU?pinrequest({x}) q2;q2 UM!pin(x <= 30) q3;q3 MU?menu q4;\""
+          "example" : "\"Init q0;q0 UM!card q1;q1 MU?pinrequest({x}) q2;q2 UM!pin(x <= 30) q3;q3 MU?menu q4;\""
         }
       }
     },
