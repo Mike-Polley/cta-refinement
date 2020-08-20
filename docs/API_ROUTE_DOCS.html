@@ -1,0 +1,149 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module api</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>api</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/var/www/cta_refinement/cta_refinement/api.py">/var/www/cta_refinement/cta_refinement/api.py</a></font></td></tr></table>
+    <p><tt>Provides&nbsp;the&nbsp;URL&nbsp;routes&nbsp;for&nbsp;the&nbsp;REST&nbsp;API&nbsp;implementation.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-append_cta"><strong>append_cta</strong></a>(name, definition)</dt><dd><tt>Adds&nbsp;given&nbsp;CTA&nbsp;to&nbsp;session's&nbsp;CTA&nbsp;List.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;A&nbsp;CTA&nbsp;object&nbsp;is&nbsp;created,&nbsp;and&nbsp;added&nbsp;it&nbsp;to&nbsp;the&nbsp;CTA&nbsp;List<br>
+&nbsp;&nbsp;&nbsp;within&nbsp;the&nbsp;session.<br>
+&nbsp;<br>
+:param&nbsp;name:&nbsp;Name&nbsp;of&nbsp;CTA<br>
+:type&nbsp;name:&nbsp;string<br>
+:param&nbsp;definition:&nbsp;Definition&nbsp;of&nbsp;the&nbsp;CTA<br>
+:type&nbsp;definition:&nbsp;string<br>
+&nbsp;<br>
+:rtype:&nbsp;none</tt></dd></dl>
+ <dl><dt><a name="-cta_functions"><strong>cta_functions</strong></a>(cta_name)</dt><dd><tt>Adds/Removes/Updates/Gets&nbsp;a&nbsp;CTA&nbsp;from&nbsp;the&nbsp;session<br>
+&nbsp;<br>
+Adds/Removes/Updates/Gets&nbsp;a&nbsp;CTA&nbsp;to&nbsp;the&nbsp;session&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+:param&nbsp;CTA:&nbsp;CTA&nbsp;to&nbsp;add/update/delete/get<br>
+:type&nbsp;CTA:&nbsp;dict&nbsp;|&nbsp;bytes<br>
+&nbsp;<br>
+:rtype:&nbsp;None</tt></dd></dl>
+ <dl><dt><a name="-cta_present"><strong>cta_present</strong></a>(name)</dt><dd><tt>Looks&nbsp;for&nbsp;a&nbsp;specific&nbsp;CTA&nbsp;within&nbsp;the&nbsp;session.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;if&nbsp;the&nbsp;target&nbsp;CTA&nbsp;is&nbsp;entered&nbsp;and&nbsp;the&nbsp;function&nbsp;returns<br>
+&nbsp;&nbsp;&nbsp;whether&nbsp;a&nbsp;CTA&nbsp;with&nbsp;a&nbsp;matching&nbsp;name&nbsp;exists.<br>
+&nbsp;<br>
+:param&nbsp;name:&nbsp;Name&nbsp;of&nbsp;CTA<br>
+:type&nbsp;name:&nbsp;string<br>
+&nbsp;<br>
+:rtype:&nbsp;boolean</tt></dd></dl>
+ <dl><dt><a name="-end_of_cta"><strong>end_of_cta</strong></a>(str, str2)</dt><dd><tt>Signifies&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;CTA&nbsp;object&nbsp;within&nbsp;a&nbsp;script.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;Idenitifies&nbsp;the&nbsp;the&nbsp;tokens&nbsp;that&nbsp;symbolise&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;CTA&nbsp;definition.<br>
+&nbsp;<br>
+:param&nbsp;str:&nbsp;String&nbsp;to&nbsp;test&nbsp;for&nbsp;object&nbsp;end&nbsp;tokens<br>
+:type&nbsp;str:&nbsp;string<br>
+&nbsp;<br>
+:param&nbsp;str2:&nbsp;String&nbsp;to&nbsp;test&nbsp;for&nbsp;object&nbsp;end&nbsp;tokens<br>
+:type&nbsp;str2:&nbsp;string<br>
+&nbsp;<br>
+:rtype:&nbsp;boolean</tt></dd></dl>
+ <dl><dt><a name="-get_blueprint"><strong>get_blueprint</strong></a>()</dt><dd><tt>Return&nbsp;the&nbsp;API&nbsp;blueprint&nbsp;for&nbsp;the&nbsp;main&nbsp;app&nbsp;module</tt></dd></dl>
+ <dl><dt><a name="-get_cta"><strong>get_cta</strong></a>(name)</dt><dd><tt>Retrieves&nbsp;the&nbsp;given&nbsp;CTA&nbsp;from&nbsp;the&nbsp;session.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;Searches&nbsp;list&nbsp;of&nbsp;CTA's&nbsp;in&nbsp;session&nbsp;and&nbsp;returns&nbsp;a&nbsp;CTA<br>
+&nbsp;&nbsp;&nbsp;if&nbsp;it&nbsp;has&nbsp;a&nbsp;matching&nbsp;name.<br>
+&nbsp;<br>
+:param&nbsp;name:&nbsp;Name&nbsp;of&nbsp;CTA<br>
+:type&nbsp;name:&nbsp;string<br>
+&nbsp;<br>
+:rtype:&nbsp;dict</tt></dd></dl>
+ <dl><dt><a name="-get_grammar"><strong>get_grammar</strong></a>()</dt><dd><tt>Gets&nbsp;CTA&nbsp;grammar&nbsp;rules.<br>
+&nbsp;<br>
+This&nbsp;will&nbsp;return&nbsp;the&nbsp;grammar&nbsp;rules&nbsp;for&nbsp;specifying&nbsp;CTAs&nbsp;&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+:rtype:&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-get_sample"><strong>get_sample</strong></a>(sample_name)</dt><dd><tt>returns&nbsp;a&nbsp;specified&nbsp;sample&nbsp;script<br>
+&nbsp;<br>
+By&nbsp;passing&nbsp;in&nbsp;the&nbsp;specified&nbsp;sample&nbsp;script&nbsp;name&nbsp;you&nbsp;are&nbsp;able&nbsp;to&nbsp;get&nbsp;a&nbsp;sample&nbsp;script&nbsp;&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+:param&nbsp;sample_name:<br>
+:type&nbsp;sample_name:&nbsp;str<br>
+&nbsp;<br>
+:rtype:&nbsp;object</tt></dd></dl>
+ <dl><dt><a name="-get_samples"><strong>get_samples</strong></a>()</dt><dd><tt>returns&nbsp;a&nbsp;list&nbsp;of&nbsp;available&nbsp;sample&nbsp;scripts<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;available&nbsp;sample&nbsp;scripts&nbsp;which&nbsp;can&nbsp;be&nbsp;passed&nbsp;as&nbsp;a&nbsp;parameter&nbsp;to&nbsp;retrieve&nbsp;specific&nbsp;sample&nbsp;&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+&nbsp;<br>
+:rtype:&nbsp;str</tt></dd></dl>
+ <dl><dt><a name="-handle_400_error"><strong>handle_400_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;400&nbsp;error&nbsp;to&nbsp;client</tt></dd></dl>
+ <dl><dt><a name="-handle_404_error"><strong>handle_404_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;404&nbsp;error&nbsp;to&nbsp;client</tt></dd></dl>
+ <dl><dt><a name="-parse_ctas"><strong>parse_ctas</strong></a>(script)</dt><dd><tt>Parses&nbsp;a&nbsp;script&nbsp;and&nbsp;extracts&nbsp;CTAs&nbsp;from&nbsp;it.<br>
+&nbsp;<br>
+By&nbsp;passing&nbsp;in&nbsp;a&nbsp;script,&nbsp;it&nbsp;is&nbsp;parsed&nbsp;and&nbsp;CTAs&nbsp;defined&nbsp;are&nbsp;added&nbsp;to&nbsp;the&nbsp;session's&nbsp;list<br>
+of&nbsp;CTAs.<br>
+&nbsp;<br>
+&nbsp;:param&nbsp;script:&nbsp;Cta&nbsp;refinement&nbsp;script<br>
+&nbsp;:type&nbsp;script:&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-refine_ctas"><strong>refine_ctas</strong></a>(cta_name1, cta_name2)</dt><dd><tt>Gets&nbsp;refinements&nbsp;between&nbsp;two&nbsp;CTAs.<br>
+&nbsp;<br>
+By&nbsp;passing&nbsp;in&nbsp;the&nbsp;appropriate&nbsp;options,&nbsp;you&nbsp;can&nbsp;search&nbsp;for&nbsp;ctas&nbsp;which&nbsp;are&nbsp;currently&nbsp;defined&nbsp;in&nbsp;the&nbsp;session&nbsp;&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+:param&nbsp;cta_name:&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;CTAs&nbsp;that&nbsp;are&nbsp;to&nbsp;be&nbsp;refined<br>
+:type&nbsp;cta_name:&nbsp;str<br>
+&nbsp;<br>
+:rtype:&nbsp;Refinement</tt></dd></dl>
+ <dl><dt><a name="-reformat_script"><strong>reformat_script</strong></a>(script)</dt><dd><tt>Reformats&nbsp;script&nbsp;for&nbsp;compatibility&nbsp;with&nbsp;'parse_cta'&nbsp;function.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;By&nbsp;reformatting&nbsp;the&nbsp;script,&nbsp;it&nbsp;can&nbsp;be&nbsp;parsed&nbsp;without&nbsp;errors&nbsp;by&nbsp;'parse_cta'.<br>
+&nbsp;<br>
+:param&nbsp;script:&nbsp;CTA&nbsp;refinement&nbsp;script<br>
+:type&nbsp;script:&nbsp;string<br>
+&nbsp;<br>
+:rtype:&nbsp;string</tt></dd></dl>
+ <dl><dt><a name="-search_cta"><strong>search_cta</strong></a>(skip<font color="#909090">=None</font>, limit<font color="#909090">=None</font>)</dt><dd><tt>Searches&nbsp;CTAs&nbsp;in&nbsp;your&nbsp;session.<br>
+&nbsp;<br>
+By&nbsp;passing&nbsp;in&nbsp;the&nbsp;appropriate&nbsp;options,&nbsp;you&nbsp;can&nbsp;search&nbsp;for&nbsp;ctas&nbsp;which&nbsp;are&nbsp;currently&nbsp;defined&nbsp;in&nbsp;the&nbsp;system&nbsp;&nbsp;#&nbsp;noqa:&nbsp;E501<br>
+&nbsp;<br>
+:param&nbsp;skip:&nbsp;number&nbsp;of&nbsp;records&nbsp;to&nbsp;skip&nbsp;for&nbsp;pagination<br>
+:type&nbsp;skip:&nbsp;int<br>
+:param&nbsp;limit:&nbsp;maximum&nbsp;number&nbsp;of&nbsp;records&nbsp;to&nbsp;return<br>
+:type&nbsp;limit:&nbsp;int<br>
+&nbsp;<br>
+:rtype:&nbsp;list</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>DBM_DIRECTORY</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules/'<br>
+<strong>EXAMPLES_DIRECTORY</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules/Examples/'<br>
+<strong>REFINER_API</strong> = &lt;flask.blueprints.Blueprint object&gt;<br>
+<strong>actions</strong> = {'Act': &lt;function &lt;lambda&gt;&gt;, 'Channel': &lt;function &lt;lambda&gt;&gt;, 'Clock': &lt;function &lt;lambda&gt;&gt;, 'Clocks': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Command': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edge': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edges': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Guard': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'IO': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Initial': &lt;function &lt;lambda&gt;&gt;, ...}<br>
+<strong>dir</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules'<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>

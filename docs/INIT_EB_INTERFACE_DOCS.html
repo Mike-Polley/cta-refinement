@@ -1,0 +1,84 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module __init__</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>__init__</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/var/www/cta_refinement/cta_refinement/__init__.py">/var/www/cta_refinement/cta_refinement/__init__.py</a></font></td></tr></table>
+    <p><tt>Provides&nbsp;the&nbsp;URL&nbsp;routes&nbsp;for&nbsp;the&nbsp;Web&nbsp;Interface&nbsp;implementation.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="tempfile.html">tempfile</a><br>
+<a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-article"><strong>article</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;timed&nbsp;automata&nbsp;article&nbsp;returns&nbsp;PDF&nbsp;to&nbsp;browser</tt></dd></dl>
+ <dl><dt><a name="-atm"><strong>atm</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;atm&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;file&nbsp;passes<br>
+back&nbsp;JSON</tt></dd></dl>
+ <dl><dt><a name="-create_id"><strong>create_id</strong></a>()</dt><dd><tt>Check&nbsp;whether&nbsp;id&nbsp;already&nbsp;exists&nbsp;in&nbsp;file.&nbsp;If&nbsp;file&nbsp;doesn't&nbsp;exist&nbsp;it&nbsp;doesn't.<br>
+Else&nbsp;search&nbsp;the&nbsp;file&nbsp;and&nbsp;check&nbsp;call&nbsp;yourself&nbsp;again&nbsp;if&nbsp;id&nbsp;found</tt></dd></dl>
+ <dl><dt><a name="-fisher"><strong>fisher</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;fisher-mutual-exclusion&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;<br>
+file&nbsp;passes&nbsp;back&nbsp;JSON</tt></dd></dl>
+ <dl><dt><a name="-ford"><strong>ford</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;ford&nbsp;creadit&nbsp;portal&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;<br>
+file&nbsp;passes&nbsp;back&nbsp;JSON</tt></dd></dl>
+ <dl><dt><a name="-get_share"><strong>get_share</strong></a>(id)</dt><dd><tt>Parameratized&nbsp;share&nbsp;URL&nbsp;route&nbsp;gets&nbsp;the&nbsp;ID&nbsp;supplied&nbsp;searches&nbsp;for&nbsp;data&nbsp;to<br>
+display&nbsp;if&nbsp;not&nbsp;found&nbsp;through&nbsp;a&nbsp;404&nbsp;resources&nbsp;not&nbsp;found&nbsp;error.</tt></dd></dl>
+ <dl><dt><a name="-grammar"><strong>grammar</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;grammar&nbsp;rules&nbsp;-&nbsp;opens&nbsp;file&nbsp;and&nbsp;passes&nbsp;to&nbsp;template.</tt></dd></dl>
+ <dl><dt><a name="-handle_400_error"><strong>handle_400_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;400&nbsp;error&nbsp;as&nbsp;html&nbsp;page</tt></dd></dl>
+ <dl><dt><a name="-handle_404_error"><strong>handle_404_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;404&nbsp;error&nbsp;as&nbsp;html&nbsp;page</tt></dd></dl>
+ <dl><dt><a name="-handle_404_json_error"><strong>handle_404_json_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;404&nbsp;error&nbsp;as&nbsp;JSON&nbsp;this&nbsp;is&nbsp;for&nbsp;the&nbsp;AJAX&nbsp;calls</tt></dd></dl>
+ <dl><dt><a name="-handle_500_error"><strong>handle_500_error</strong></a>(_error)</dt><dd><tt>Return&nbsp;a&nbsp;http&nbsp;500&nbsp;error&nbsp;as&nbsp;html&nbsp;page</tt></dd></dl>
+ <dl><dt><a name="-home"><strong>home</strong></a>()</dt><dd><tt>Renders&nbsp;the&nbsp;homepage&nbsp;(index.html)</tt></dd></dl>
+ <dl><dt><a name="-ooi"><strong>ooi</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;ooi-word-counting&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;<br>
+file&nbsp;passes&nbsp;back&nbsp;JSON</tt></dd></dl>
+ <dl><dt><a name="-output"><strong>output</strong></a>()</dt><dd><tt>Logic&nbsp;for&nbsp;handling&nbsp;the&nbsp;refinement.&nbsp;Gets&nbsp;the&nbsp;AJAX&nbsp;call&nbsp;and&nbsp;file&nbsp;type&nbsp;<br>
+format,&nbsp;creates&nbsp;a&nbsp;temporary&nbsp;file&nbsp;for&nbsp;the&nbsp;picture&nbsp;passes&nbsp;it&nbsp;to&nbsp;webscript<br>
+refinement&nbsp;checker&nbsp;URL&nbsp;passes&nbsp;the&nbsp;result&nbsp;back.<br>
+If&nbsp;the&nbsp;user&nbsp;chooses&nbsp;to&nbsp;generate&nbsp;GO&nbsp;lang&nbsp;pass&nbsp;to&nbsp;go&nbsp;lang&nbsp;tool&nbsp;and&nbsp;pass<br>
+back</tt></dd></dl>
+ <dl><dt><a name="-share"><strong>share</strong></a>()</dt><dd><tt>Logic&nbsp;for&nbsp;the&nbsp;share&nbsp;URL&nbsp;routing&nbsp;grabs&nbsp;the&nbsp;editor&nbsp;content,&nbsp;generates<br>
+an&nbsp;id&nbsp;using&nbsp;function.&nbsp;Adds&nbsp;to&nbsp;JSON&nbsp;file.&nbsp;If&nbsp;no&nbsp;JSON&nbsp;file&nbsp;create&nbsp;one<br>
+else&nbsp;get&nbsp;JSON&nbsp;data&nbsp;append&nbsp;this&nbsp;to&nbsp;it&nbsp;and&nbsp;write&nbsp;back&nbsp;to&nbsp;file.&nbsp;Redirect<br>
+to&nbsp;parameratized&nbsp;share&nbsp;url&nbsp;route.</tt></dd></dl>
+ <dl><dt><a name="-smtp"><strong>smtp</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;smtp&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;<br>
+file&nbsp;passes&nbsp;back&nbsp;JSON</tt></dd></dl>
+ <dl><dt><a name="-task"><strong>task</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;scheduled-task-protocol&nbsp;sample&nbsp;script&nbsp;-&nbsp;uses&nbsp;AJAX&nbsp;call&nbsp;opens&nbsp;<br>
+file&nbsp;passes&nbsp;back&nbsp;JSON</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>API_URL</strong> = '/static/swagger/swagger.json'<br>
+<strong>DBM_DIRECTORY</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules/'<br>
+<strong>GO_GENERATOR</strong> = '/var/www/cta_refinement/cta_refinement/goGenerator/'<br>
+<strong>JSON_DIRECTORY</strong> = '/var/www/cta_refinement/cta_refinement/static/files/jsonSession/'<br>
+<strong>SWAGGERUI_BLUEPRINT</strong> = &lt;flask.blueprints.Blueprint object&gt;<br>
+<strong>SWAGGER_URL</strong> = '/swagger'<br>
+<strong>actions</strong> = {'Act': &lt;function &lt;lambda&gt;&gt;, 'Channel': &lt;function &lt;lambda&gt;&gt;, 'Clock': &lt;function &lt;lambda&gt;&gt;, 'Clocks': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Command': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edge': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edges': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Guard': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'IO': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Initial': &lt;function &lt;lambda&gt;&gt;, ...}<br>
+<strong>app</strong> = &lt;Flask '__init__'&gt;<br>
+<strong>dir</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules'<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>

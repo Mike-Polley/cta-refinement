@@ -1,0 +1,71 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module CtaWebFunctions</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>CtaWebFunctions</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/var/www/cta_refinement/cta_refinement/dbmModules/CtaWebFunctions.py">/var/www/cta_refinement/cta_refinement/dbmModules/CtaWebFunctions.py</a></font></td></tr></table>
+    <p><tt>Cta&nbsp;Web&nbsp;Functions<br>
+This&nbsp;module&nbsp;provides&nbsp;functions&nbsp;to&nbsp;be&nbsp;used&nbsp;when&nbsp;interfacing&nbsp;with&nbsp;the&nbsp;Flask<br>
+webframework&nbsp;specifically&nbsp;it&nbsp;allows&nbsp;for&nbsp;CtaRefinement&nbsp;tool&nbsp;to&nbsp;accept&nbsp;String<br>
+data&nbsp;types&nbsp;and&nbsp;return&nbsp;Strings&nbsp;back&nbsp;for&nbsp;rendering&nbsp;within&nbsp;webtemplates.<br>
+This&nbsp;file&nbsp;can&nbsp;also&nbsp;be&nbsp;imported&nbsp;as&nbsp;a&nbsp;module&nbsp;and&nbsp;contains&nbsp;the&nbsp;following<br>
+functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_refines&nbsp;-&nbsp;checks&nbsp;for&nbsp;refinements&nbsp;between&nbsp;two&nbsp;Cta&nbsp;Objects&nbsp;returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;String&nbsp;output&nbsp;of&nbsp;refinement&nbsp;outcome.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_sr_refines&nbsp;-&nbsp;implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;restrictor&nbsp;function.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_srp_refines&nbsp;-&nbsp;implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;procrastinator&nbsp;function.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_A_refines&nbsp;-&nbsp;implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;asymettric&nbsp;function.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_llesp&nbsp;-&nbsp;checks&nbsp;llesp&nbsp;characteristics&nbsp;between&nbsp;two&nbsp;Cta&nbsp;returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;String&nbsp;output.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_query&nbsp;-&nbsp;implements&nbsp;web_llesp&nbsp;with&nbsp;Cta&nbsp;enviroment&nbsp;variables<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_execute&nbsp;-&nbsp;iterates&nbsp;through&nbsp;numerous&nbsp;Ctas&nbsp;present&nbsp;in&nbsp;query&nbsp;String&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passes&nbsp;to&nbsp;web_query<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;web_refinement_checker&nbsp;-&nbsp;key&nbsp;function&nbsp;loads&nbsp;grammar&nbsp;file&nbsp;and&nbsp;provides&nbsp;error&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checking&nbsp;on&nbsp;String&nbsp;passed&nbsp;-&nbsp;should&nbsp;be&nbsp;used&nbsp;as&nbsp;the&nbsp;main&nbsp;funcation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;main&nbsp;-&nbsp;passes&nbsp;to&nbsp;webRefinementChecker</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt></dl>
+ <dl><dt><a name="-web_A_refines"><strong>web_A_refines</strong></a>(ctaA, ctaB)</dt><dd><tt>implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;asymettric&nbsp;function.</tt></dd></dl>
+ <dl><dt><a name="-web_execute"><strong>web_execute</strong></a>(script, tf, format)</dt><dd><tt>iterates&nbsp;through&nbsp;numerous&nbsp;Ctas&nbsp;present&nbsp;in&nbsp;query&nbsp;String&nbsp;<br>
+passes&nbsp;to&nbsp;web_query</tt></dd></dl>
+ <dl><dt><a name="-web_llesp"><strong>web_llesp</strong></a>(ctaA, ctaB)</dt><dd><tt>checks&nbsp;llesp&nbsp;characteristics&nbsp;between&nbsp;two&nbsp;Cta&nbsp;returns<br>
+a&nbsp;String&nbsp;output.</tt></dd></dl>
+ <dl><dt><a name="-web_query"><strong>web_query</strong></a>(env, cta1name, cta2name)</dt><dd><tt>implements&nbsp;web_llesp&nbsp;with&nbsp;Cta&nbsp;enviroment&nbsp;variables</tt></dd></dl>
+ <dl><dt><a name="-web_refines"><strong>web_refines</strong></a>(ctaA, ctaB, f)</dt><dd><tt>checks&nbsp;for&nbsp;refinements&nbsp;between&nbsp;two&nbsp;Cta&nbsp;Objects&nbsp;returns<br>
+a&nbsp;String&nbsp;output&nbsp;of&nbsp;refinement&nbsp;outcome.</tt></dd></dl>
+ <dl><dt><a name="-web_script_refinement_checker"><strong>web_script_refinement_checker</strong></a>(script, tf, format)</dt><dd><tt>key&nbsp;function&nbsp;loads&nbsp;grammar&nbsp;file&nbsp;and&nbsp;provides&nbsp;error&nbsp;<br>
+checking&nbsp;on&nbsp;String&nbsp;passed&nbsp;-&nbsp;should&nbsp;be&nbsp;used&nbsp;as&nbsp;the&nbsp;main&nbsp;funcation.</tt></dd></dl>
+ <dl><dt><a name="-web_sr_refines"><strong>web_sr_refines</strong></a>(ctaA, ctaB)</dt><dd><tt>implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;restrictor&nbsp;function.</tt></dd></dl>
+ <dl><dt><a name="-web_srp_refines"><strong>web_srp_refines</strong></a>(ctaA, ctaB)</dt><dd><tt>implements&nbsp;web_refines&nbsp;with&nbsp;a&nbsp;procrastinator&nbsp;function.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>actions</strong> = {'Act': &lt;function &lt;lambda&gt;&gt;, 'Channel': &lt;function &lt;lambda&gt;&gt;, 'Clock': &lt;function &lt;lambda&gt;&gt;, 'Clocks': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Command': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edge': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Edges': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Guard': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'IO': [&lt;function &lt;lambda&gt;&gt;, &lt;function &lt;lambda&gt;&gt;], 'Initial': &lt;function &lt;lambda&gt;&gt;, ...}<br>
+<strong>dir</strong> = '/var/www/cta_refinement/cta_refinement/dbmModules'</td></tr></table>
+</body></html>

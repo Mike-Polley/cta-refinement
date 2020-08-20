@@ -35,7 +35,7 @@ def test_grammar(app,client):
 def test_output_failure(app,client):
     res = client.get('/output')
     assert res.status_code == 200
-    assert "Failed" in res.data
+    assert "Oops Resource Not Found" in res.data
 
     """Test the ATM sample script ajax
     """
