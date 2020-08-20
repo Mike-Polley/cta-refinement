@@ -20,7 +20,7 @@ environment - these can be altered should you wish to change locations.
 in http://people.cs.aau.dk/~adavid/UDBM/python.html. 
 
 Tips:
-When installing the required Uppaal DBM Library (http://people.cs.aau.dk/~adavid/UDBM/), call: 
+When installing the required Uppaal DBM Library (https://github.com/airbornemihir/uppaal-dbm), call: 
 AR=ar ./configure
 instead of ./configure.
 For 64 bit architectures only, add the flag -fPIC to 
