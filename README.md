@@ -86,9 +86,9 @@ Refinement checking is performed with:
 U1 refines? U2;
 ```
 
-----------------------
-
 The full grammar of the language is on the page 'grammar'.
+
+----------------------
 
 Relevant and helpful links:
 
