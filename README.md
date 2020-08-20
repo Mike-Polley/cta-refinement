@@ -1,3 +1,7 @@
+This is a version of the CTA refinement tool which has been refactored with PEP8 
+standards.
+
+
 This tool implements the theory of "Compositional asynchronous timed refinement".
 
 (1) Installation instructions (Ubuntu only)
